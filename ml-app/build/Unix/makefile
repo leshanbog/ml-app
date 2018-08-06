@@ -12,6 +12,7 @@ SOURCES= \
 EXECUTABLE=proga
 
 all:
+	mkdir -p $(BUILD_DIR)
 	$(CC) $(STD) -pthread $(OPTFLAGS) $(SOURCES) -o $(BUILD_DIR)/$(EXECUTABLE)
 
 

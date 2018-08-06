@@ -5,7 +5,7 @@ import sys
 
 curConfiguration = sys.argv[1]
 
-app_folder = '/'.join(os.path.dirname(os.path.realpath(__file__)).split('/')[:-2])
+app_folder = '/'.join(os.path.dirname(os.path.realpath(__file__)).split('/')[:-1])
 app_name = 'proga'
 app = app_folder + '/build/Unix/'+ curConfiguration + '/' + app_name + ' '
 
@@ -17,9 +17,7 @@ def AreVeryClose(actual,expected):
     return (actual <= expected + expected*0.0001) and (actual >= expected - expected*0.0001)
 
 def GetResult(cmd):
-    p = subprocess.Popen(app+cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-    result = p.communicate()[0]
-    return result
+    return subprocess.check_output(app+cmd, shell = True)
 
 def GetRmse(cmd):
     return float(cmd.split()[cmd.split().index('RMSE')+1])
@@ -92,7 +90,7 @@ class SimpleCommands(unittest.TestCase):
 class AlgorithmScore(unittest.TestCase):
 
     def test_default_folds_number_and_ConstPrediction(self):
-        cmd = 'ml ' + app_folder + '/datasets/cpu.small.csv 1'
+        cmd = 'ml ' + app_folder + '/../datasets/cpu.small.csv 1'
         res = GetResult(cmd)
 
         actualRmse = GetRmse(res)
@@ -105,7 +103,7 @@ class AlgorithmScore(unittest.TestCase):
 
 
     def test_argument_folds_number_and_ConstPrediction(self):
-        cmd = 'ml ' + app_folder + '/datasets/cpu.small.csv 1 -fn 20'
+        cmd = 'ml ' + app_folder + '/../datasets/cpu.small.csv 1 -fn 20'
         res = GetResult(cmd)
 
         actualRmse = GetRmse(res)
@@ -118,7 +116,7 @@ class AlgorithmScore(unittest.TestCase):
 
 
     def test_DecisionStump_full_training_set(self):
-        cmd = 'ml ' + app_folder + '/datasets/cpu.small.csv 2 -fn 1'
+        cmd = 'ml ' + app_folder + '/../datasets/cpu.small.csv 2 -fn 1'
         res = GetResult(cmd)
 
         actualRmse = GetRmse(res)
@@ -132,23 +130,21 @@ class AlgorithmScore(unittest.TestCase):
         self.assertTrue(AreVeryClose(actualValueThreshold, 48000.0))
 
 
-
     def test_DecisionStump_all_folds(self):
-        cmd = 'ml ' + app_folder + '/datasets/cpu.small.csv 2 -fn 209'
+        cmd = 'ml ' + app_folder + '/../datasets/cpu.small.csv 2 -fn 209'
         res = GetResult(cmd)
 
         actualRmse = GetRmse(res)
         actualValueBelow = GetValueBelow(res)
         actualValueAbove = GetValueAbove(res)
         actualValueThreshold = GetThreshold(res)
-        
+        actualFoldsNumber = GetFoldsNumber(res)
+
         self.assertTrue(AreVeryClose(actualRmse, 136.2801))
         self.assertTrue(AreVeryClose(actualValueBelow, 88.92682926829268))
         self.assertTrue(AreVeryClose(actualValueAbove, 961.25))
         self.assertTrue(AreVeryClose(actualValueThreshold, 48000.0))
-
-
-
+        self.assertEqual(actualFoldsNumber, 209)
 
 
 if __name__ == '__main__':
