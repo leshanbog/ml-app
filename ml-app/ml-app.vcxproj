@@ -70,23 +70,23 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>$(SolutionDIr)build\Windows\$(Configuration)</OutDir>
-    <IntDir>$(SolutionDir)build\Windows\intermediate\$(Configuration)</IntDir>
+    <OutDir>$(SolutionDIr)$(ProjectName)\build\Windows\$(Configuration)</OutDir>
+    <IntDir>$(SolutionDir)$(ProjectName)\build\Windows\intermediate\$(Configuration)</IntDir>
     <TargetName>proga</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>$(SolutionDIr)build\Windows\$(Configuration)</OutDir>
-    <IntDir>$(SolutionDir)build\Windows\intermediate\$(Configuration)</IntDir>
+    <OutDir>$(SolutionDIr)$(ProjectName)\build\Windows\$(Configuration)</OutDir>
+    <IntDir>$(SolutionDir)$(ProjectName)\build\Windows\intermediate\$(Configuration)</IntDir>
     <TargetName>proga</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>$(SolutionDIr)build\Windows\$(Configuration)</OutDir>
-    <IntDir>$(SolutionDir)build\Windows\intermediate\$(Configuration)</IntDir>
+    <OutDir>$(SolutionDIr)$(ProjectName)\build\Windows\$(Configuration)</OutDir>
+    <IntDir>$(SolutionDir)$(ProjectName)\build\Windows\intermediate\$(Configuration)</IntDir>
     <TargetName>proga</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>$(SolutionDIr)build\Windows\$(Configuration)</OutDir>
-    <IntDir>$(SolutionDir)build\Windows\intermediate\$(Configuration)</IntDir>
+    <OutDir>$(SolutionDIr)$(ProjectName)\build\Windows\$(Configuration)</OutDir>
+    <IntDir>$(SolutionDir)$(ProjectName)\build\Windows\intermediate\$(Configuration)</IntDir>
     <TargetName>proga</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
