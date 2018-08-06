@@ -7,6 +7,7 @@ SOURCES= \
 	$(SRC)/algorithms/ConstPrediction.cpp \
 	$(SRC)/algorithms/DecisionStump.cpp \
 	$(SRC)/algorithms/KNN.cpp \
+	$(SRC)/algorithms/LinearRegression.cpp \
 	$(SRC)/LearningMachineLearning.cpp
 
 EXECUTABLE=proga
