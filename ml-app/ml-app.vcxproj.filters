@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="src">
+      <UniqueIdentifier>{2377ebe5-1169-4d80-95de-9cbac5a2b782}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tests">
+      <UniqueIdentifier>{59650a6c-2d9f-46ad-b4ea-c5756fc83619}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\auxiliaryObjects">
+      <UniqueIdentifier>{dc570266-cbd0-4ad7-875f-7cd29579a9e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\algorithms">
+      <UniqueIdentifier>{e081eb71-6c2e-49d9-9831-a99b51e786e7}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="tests\start.py">
+      <Filter>tests</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\algorithms.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\auxiliaryObjects.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CrossValidation.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\InfoProvider.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\LearningMachineLearning.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\algorithms\Algo.h">
+      <Filter>src\algorithms</Filter>
+    </ClInclude>
+    <ClInclude Include="src\algorithms\BaggedAlg.h">
+      <Filter>src\algorithms</Filter>
+    </ClInclude>
+    <ClInclude Include="src\algorithms\BoostedAlg.h">
+      <Filter>src\algorithms</Filter>
+    </ClInclude>
+    <ClInclude Include="src\algorithms\ConstPrediction.h">
+      <Filter>src\algorithms</Filter>
+    </ClInclude>
+    <ClInclude Include="src\algorithms\DecisionStump.h">
+      <Filter>src\algorithms</Filter>
+    </ClInclude>
+    <ClInclude Include="src\algorithms\KNN.h">
+      <Filter>src\algorithms</Filter>
+    </ClInclude>
+    <ClInclude Include="src\auxiliaryObjects\ArgsForAlg.h">
+      <Filter>src\auxiliaryObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="src\auxiliaryObjects\DataFrame.h">
+      <Filter>src\auxiliaryObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="src\auxiliaryObjects\Obj.h">
+      <Filter>src\auxiliaryObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="src\auxiliaryObjects\UsefulMath.h">
+      <Filter>src\auxiliaryObjects</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\LearningMachineLearning.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\algorithms\ConstPrediction.cpp">
+      <Filter>src\algorithms</Filter>
+    </ClCompile>
+    <ClCompile Include="src\algorithms\DecisionStump.cpp">
+      <Filter>src\algorithms</Filter>
+    </ClCompile>
+    <ClCompile Include="src\algorithms\KNN.cpp">
+      <Filter>src\algorithms</Filter>
+    </ClCompile>
+    <ClCompile Include="src\auxiliaryObjects\DataFrame.cpp">
+      <Filter>src\auxiliaryObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="src\auxiliaryObjects\Obj.cpp">
+      <Filter>src\auxiliaryObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="src\auxiliaryObjects\UsefulMath.cpp">
+      <Filter>src\auxiliaryObjects</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
