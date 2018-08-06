@@ -36,7 +36,7 @@ public:
 		return ans;
 	}
 
-	void Fit(const DataFrame&) override;
+	void Learn(const DataFrame&) override;
 
 	vector <long double> Predict(const DataFrame&) const override;
 
@@ -48,7 +48,7 @@ private:
 	ArgsForAlg m_argsForTLearner;
 };
 
-template<class TLearner> void BoostedAlg<TLearner>::Fit(const DataFrame& df)
+template<class TLearner> void BoostedAlg<TLearner>::Learn(const DataFrame& df)
 {
 	DataFrame train = df;
 	for (uint16_t i = 0; i < m_numberOfAlgs; ++i)

@@ -259,6 +259,11 @@ string RunLogic::StartAlg()
 				args.argsInt = {5};
 			res = BuildAndEstimateModel<KNN>(foldsNum, args);
 			break;
+		case 4:
+			if (args.argsLongDouble.empty())
+				args.argsLongDouble = { 0.00001 };
+			res = BuildAndEstimateModel<LinearRegression>(foldsNum, args);
+			break;
 		case 21:
 			if (args.argsInt.empty())
 				args.argsInt = {25, (int)(m_df->GetDimention().first * 0.8)};
@@ -327,3 +332,6 @@ int main(int argc, char *argv[])
 
 	return 0;
 }
+
+
+// TODO: change ArgsForAlgs, default values for LR, number of iterations as a parameter in LR

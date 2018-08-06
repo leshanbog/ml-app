@@ -38,7 +38,7 @@ public:
 		return ans;
 	}
 
-	void Fit(const DataFrame&) override;
+	void Learn(const DataFrame&) override;
 
 	vector <long double> Predict(const DataFrame&) const override;
 
@@ -55,10 +55,8 @@ private:
 };
 
 
-template<class TLearner> void BaggedAlg<TLearner>::Fit(const DataFrame& df)
+template<class TLearner> void BaggedAlg<TLearner>::Learn(const DataFrame& df)
 {
-	m_featureNames = df.GetFeatureNames();
-
 	for (uint16_t i = 0; i < m_numberOfAlgs; ++i)
 	{
 		TLearner alg(m_argsForTLearner);

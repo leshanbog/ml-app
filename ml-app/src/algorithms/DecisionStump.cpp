@@ -11,15 +11,7 @@ namespace algorithms
 {
 
 
-void DecisionStump::Fit(const DataFrame& df)
-{
-	m_featureNames = df.GetFeatureNames();
-	auto ans = FindBestParams(df);
-	m_params = ans.dsParams;
-	m_mainFeature = ans.mainFeature;
-}
-
-PassingParameters DecisionStump::FindBestParams(const DataFrame& df) const
+void DecisionStump::Learn(const DataFrame& df)
 {
 	PassingParameters bestParams;
 	bestParams.rmse = std::numeric_limits<long double>::max();
@@ -31,7 +23,9 @@ PassingParameters DecisionStump::FindBestParams(const DataFrame& df) const
 			bestParams = tempParams;
 		}
 	}
-	return bestParams;
+
+	m_params = bestParams.dsParams;
+	m_mainFeature = bestParams.mainFeature;
 }
 
 PassingParameters DecisionStump::FindParams(const DataFrame& df, int j) const

@@ -65,6 +65,7 @@
     <ClInclude Include="src\auxiliaryObjects\UsefulMath.h">
       <Filter>src\auxiliaryObjects</Filter>
     </ClInclude>
+    <ClInclude Include="src\algorithms\LinearRegression.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\LearningMachineLearning.cpp">
@@ -88,5 +89,6 @@
     <ClCompile Include="src\auxiliaryObjects\UsefulMath.cpp">
       <Filter>src\auxiliaryObjects</Filter>
     </ClCompile>
+    <ClCompile Include="src\algorithms\LinearRegression.cpp" />
   </ItemGroup>
 </Project>

@@ -5,26 +5,16 @@ namespace algorithms
 {
 
 
-void ConstPrediction::Fit(const DataFrame& df)
+void ConstPrediction::Learn(const DataFrame& df)
 {
-	m_featureNames = df.GetFeatureNames();
-	auto ans = FindBestParams(df);
-	m_param = ans[0];
+	m_param = UsefulMath::mean(df.GetAnswers());
 }
-
-
-vector<long double> ConstPrediction::FindBestParams(const DataFrame& df) const
-{
-	return { UsefulMath::mean(df.GetAnswers()) };
-}
-
 
 vector<long double> ConstPrediction::Predict(const DataFrame& df) const
 {
 	vector<long double> ans(df.GetDimention().first, m_param);
 	return ans;
 }
-
 
 string ConstPrediction::GetDescriptionOfModel() const
 {

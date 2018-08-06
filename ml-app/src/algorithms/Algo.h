@@ -12,7 +12,13 @@ namespace algorithms
 class Algo
 {
 public:
-	virtual void Fit(const DataFrame&) = 0;
+	void Fit(const DataFrame& df)
+	{
+		m_featureNames = df.GetFeatureNames();
+		Learn(df);
+	}
+
+	virtual void Learn(const DataFrame&) = 0;
 
 	virtual vector <long double> Predict(const DataFrame&) const = 0;
 

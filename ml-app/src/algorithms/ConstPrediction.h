@@ -17,9 +17,7 @@ public:
 		return "Const Prediction";
 	}
 
-	void Fit(const DataFrame&) override;
-
-	vector <long double> FindBestParams(const DataFrame&) const;
+	void Learn(const DataFrame&) override;
 
 	vector <long double> Predict(const DataFrame&) const override;
 

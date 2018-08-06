@@ -21,7 +21,7 @@ public:
 		return "KNN";
 	}
 
-	void Fit(const DataFrame&) override;
+	void Learn(const DataFrame&) override;
 
 	vector <long double> Predict(const DataFrame&) const override;
 

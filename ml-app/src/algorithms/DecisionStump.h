@@ -33,7 +33,7 @@ public:
 		return "Decision Stump";
 	}
 
-	void Fit(const DataFrame& df) override;
+	void Learn(const DataFrame& df) override;
 
 	// make predictions with params p and main feature j
 	vector <long double> Predict(const DataFrame& df) const override;
@@ -42,8 +42,6 @@ public:
 private:
 	DecisionStumpParams m_params = { 0.0 ,0.0 ,0.0 };
 	int m_mainFeature = 0;
-
-	PassingParameters FindBestParams(const DataFrame& df) const;
 
 	// find params for j-th feature in DataFrame
 	PassingParameters  FindParams(const DataFrame& df, int) const;

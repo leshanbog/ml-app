@@ -1,5 +1,5 @@
 #include <map>
-
+#include <algorithm>
 #include "KNN.h"
 
 using std::multimap;
@@ -10,9 +10,8 @@ namespace algorithms
 {
 
 
-void KNN::Fit(const DataFrame &df)
+void KNN::Learn(const DataFrame &df)
 {
-	m_featureNames = df.GetFeatureNames();
 	m_data = df;
 }
 
@@ -34,7 +33,7 @@ vector<long double> KNN::Predict(const DataFrame &df) const
 
 string KNN::GetDescriptionOfModel() const
 {
-	return "K = " + std::to_string(m_k) + "\n";
+	return "K = " + std::to_string(m_k) + '\n';
 }
 
 
