@@ -222,7 +222,7 @@ ArgsForAlg RunLogic::ConvertToArgs(const string& params) const
 			s += params[i];
 			++i;
 		}
-		args.argsInt.push_back(stoi(s));
+		args.argsLongDouble.push_back(stold(s));
 		++i;
 		s = "";
 	}
@@ -255,8 +255,8 @@ string RunLogic::StartAlg()
 			res = BuildAndEstimateModel<DecisionStump>(foldsNum, args);
 			break;
 		case 3:
-			if (args.argsInt.empty())
-				args.argsInt = {5};
+			if (args.argsLongDouble.empty())
+				args.argsLongDouble = {5};
 			res = BuildAndEstimateModel<KNN>(foldsNum, args);
 			break;
 		case 4:
@@ -265,33 +265,33 @@ string RunLogic::StartAlg()
 			res = BuildAndEstimateModel<LinearRegression>(foldsNum, args);
 			break;
 		case 21:
-			if (args.argsInt.empty())
-				args.argsInt = {25, (int)(m_df->GetDimention().first * 0.8)};
+			if (args.argsLongDouble.empty())
+				args.argsLongDouble = {25, m_df->GetDimention().first * 0.8};
 			res = BuildAndEstimateModel<BaggedAlg<ConstPrediction>>(foldsNum, args);
 			break;
 		case 22:
-			if (args.argsInt.empty())
-				args.argsInt = {25, (int)(m_df->GetDimention().first * 0.8)};
+			if (args.argsLongDouble.empty())
+				args.argsLongDouble = {25, m_df->GetDimention().first * 0.8};
 			res = BuildAndEstimateModel<BaggedAlg<DecisionStump>>(foldsNum, args);
 			break;
 		case 23:
-			if (args.argsInt.empty())
-				args.argsInt = {25, (int)(m_df->GetDimention().first * 0.8), 5};
+			if (args.argsLongDouble.empty())
+				args.argsLongDouble = {25, m_df->GetDimention().first * 0.8, 5};
 			res = BuildAndEstimateModel<BaggedAlg<KNN>>(foldsNum, args);
 			break;
 		case 31:
-			if (args.argsInt.empty())
-				args.argsInt = {50};
+			if (args.argsLongDouble.empty())
+				args.argsLongDouble = {50};
 			res = BuildAndEstimateModel<BoostedAlg<ConstPrediction>>(foldsNum, args);
 			break;
 		case 32:
-			if (args.argsInt.empty())
-				args.argsInt = {50};
+			if (args.argsLongDouble.empty())
+				args.argsLongDouble = {50};
 			res = BuildAndEstimateModel<BoostedAlg<DecisionStump>>(foldsNum, args);
 			break;
 		case 33:
-			if (args.argsInt.empty())
-				args.argsInt = {50, 5};
+			if (args.argsLongDouble.empty())
+				args.argsLongDouble = {50, 5};
 			res = BuildAndEstimateModel<BoostedAlg<KNN>>(foldsNum, args);
 			break;
 		default:

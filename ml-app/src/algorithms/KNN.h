@@ -13,7 +13,7 @@ class KNN : public Algo
 public:
 	inline KNN(const ArgsForAlg& args)
 	{
-		m_k = args.argsInt[0];
+		m_k = args.argsLongDouble[0];
 	}
 
 	inline string GetAlgName() const override

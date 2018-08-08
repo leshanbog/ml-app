@@ -3,11 +3,9 @@ import unittest
 import os
 import sys
 
-curConfiguration = sys.argv[1]
-
 app_folder = '/'.join(os.path.dirname(os.path.realpath(__file__)).split('/')[:-1])
 app_name = 'proga'
-app = app_folder + '/build/Unix/'+ curConfiguration + '/' + app_name + ' '
+app = app_folder + '/build/Unix/Release/' + app_name + ' '
 
 
 def AreClose(actual,expected):

@@ -1,5 +1,6 @@
 #include "LinearRegression.h"
 
+#include <cstdlib>
 
 namespace algorithms
 {

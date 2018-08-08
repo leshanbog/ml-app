@@ -13,10 +13,10 @@ class BoostedAlg : public Algo
 public:
 	inline BoostedAlg(const ArgsForAlg& args)
 	{
-		m_numberOfAlgs = args.argsInt[0];
+		m_numberOfAlgs = args.argsLongDouble[0];
 
-		for (int i = 1; i < args.argsInt.size(); ++i)
-			m_argsForTLearner.argsInt.push_back(args.argsInt[i]);
+		for (int i = 1; i < args.argsLongDouble.size(); ++i)
+			m_argsForTLearner.argsLongDouble.push_back(args.argsLongDouble[i]);
 
 		m_algsPool.reserve(m_numberOfAlgs);
 	}
@@ -24,10 +24,10 @@ public:
 	inline string GetAlgName() const override
 	{
 		string ans = "Boosted " + m_algsPool[0].GetAlgName();
-		if (m_argsForTLearner.argsInt.size() != 0)
+		if (m_argsForTLearner.argsLongDouble.size() != 0)
 		{
 			ans += "(";
-			for (const auto& el : m_argsForTLearner.argsInt)
+			for (const auto& el : m_argsForTLearner.argsLongDouble)
 			{
 				ans += std::to_string(el) + ", ";
 			}
