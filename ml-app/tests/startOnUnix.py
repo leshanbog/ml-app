@@ -9,7 +9,7 @@ app = app_folder + '/build/Unix/Release/' + app_name + ' '
 
 
 def AreClose(actual,expected):
-    return (actual <= expected + expected*0.015) and (actual >= expected - expected*0.015)
+    return (actual <= expected + expected*0.05) and (actual >= expected - expected*0.05)
 
 def AreVeryClose(actual,expected):
     return (actual <= expected + expected*0.0001) and (actual >= expected - expected*0.0001)
@@ -143,6 +143,28 @@ class AlgorithmScore(unittest.TestCase):
         self.assertTrue(AreVeryClose(actualValueAbove, 961.25))
         self.assertTrue(AreVeryClose(actualValueThreshold, 48000.0))
         self.assertEqual(actualFoldsNumber, 209)
+
+    def test_KNN_1_fold_2_n(self):
+        cmd = 'ml ' + app_folder + '/../datasets/puma.csv 3 -fn 1 -a 2'
+        res = GetResult(cmd)
+
+        actualRmse = GetRmse(res)
+        self.assertTrue(AreClose(actualRmse, 0.0183))
+
+    def test_KNN_1_fold_7_n(self):
+        cmd = 'ml ' + app_folder + '/../datasets/puma.csv 3 -fn 1 -a 7'
+        res = GetResult(cmd)
+
+        actualRmse = GetRmse(res)
+        self.assertTrue(AreClose(actualRmse, 0.0238))
+
+    def test_KNN_4_fold_2_n(self):
+        cmd = 'ml ' + app_folder + '/../datasets/puma.csv 3 -fn 4 -a 2'
+        res = GetResult(cmd)
+
+        actualRmse = GetRmse(res)
+        self.assertTrue(AreClose(actualRmse, 0.0318))
+
 
 
 if __name__ == '__main__':
