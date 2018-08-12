@@ -144,6 +144,28 @@ class AlgorithmScore(unittest.TestCase):
         self.assertTrue(AreVeryClose(actualValueThreshold, 48000.0))
         self.assertEqual(actualFoldsNumber, 209)
 
+    def test_KNN_1_fold_2_n(self):
+        cmd = 'ml ' + app_folder + '/../datasets/puma.csv 3 -fn 1 -a 2'
+        res = GetResult(cmd)
+
+        actualRmse = GetRmse(cmd)
+        self.assertTrue(AreClose(actualRmse, 0.0183))
+
+    def test_KNN_1_fold_7_n(self):
+        cmd = 'ml ' + app_folder + '/../datasets/puma.csv 3 -fn 1 -a 7'
+        res = GetResult(cmd)
+
+        actualRmse = GetRmse(cmd)
+        self.assertTrue(AreClose(actualRmse, 0.0238))
+
+    def test_KNN_4_fold_2_n(self):
+        cmd = 'ml ' + app_folder + '/../datasets/puma.csv 3 -fn 1 -a 7'
+        res = GetResult(cmd)
+
+        actualRmse = GetRmse(cmd)
+        self.assertTrue(AreClose(actualRmse, 0.0318))
+
+
 
 if __name__ == '__main__':
     unittest.main(argv=['first-arg-is-ignored'])

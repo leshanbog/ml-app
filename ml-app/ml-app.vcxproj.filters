@@ -90,5 +90,6 @@
       <Filter>src\auxiliaryObjects</Filter>
     </ClCompile>
     <ClCompile Include="src\algorithms\LinearRegression.cpp" />
+    <ClCompile Include="src\algorithms\Algo.cpp" />
   </ItemGroup>
 </Project>
