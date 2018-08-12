@@ -161,7 +161,6 @@
     <ClInclude Include="src\LearningMachineLearning.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\algorithms\Algo.cpp" />
     <ClCompile Include="src\algorithms\ConstPrediction.cpp" />
     <ClCompile Include="src\algorithms\DecisionStump.cpp" />
     <ClCompile Include="src\algorithms\KNN.cpp" />
