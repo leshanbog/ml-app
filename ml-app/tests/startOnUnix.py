@@ -5,7 +5,7 @@ import sys
 
 app_folder = '/'.join(os.path.dirname(os.path.realpath(__file__)).split('/')[:-1])
 app_name = 'proga'
-app = app_folder + '/build/Unix/Release/' + app_name + ' '
+app = app_folder + '/bin/Darwin/Release/' + app_name + ' '
 
 
 def AreClose(actual,expected):

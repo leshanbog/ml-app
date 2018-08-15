@@ -10,8 +10,10 @@ namespace algorithm_helpers
 DataFrame::DataFrame(const vector<Obj>& v)
 {
 	data = v;
-	if (v.size() != 0 )dimention = {v.size(),v[0].description.size()};
-	else dimention = { 0,0 };
+	if (v.size() != 0)
+		dimention = {v.size(), v[0].description.size()};
+	else 
+		dimention = { 0,0 };
 }
 
 

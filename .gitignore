@@ -2,6 +2,10 @@
 # Created by https://www.gitignore.io/api/c++,python,visualstudio
 
 .DS_Store
+CMakeCache.txt
+CMakeFiles
+Makefile
+cmake_install.cmake
 
 ### C++ ###
 # Prerequisites
