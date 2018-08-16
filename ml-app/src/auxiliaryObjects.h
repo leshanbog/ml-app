@@ -12,6 +12,4 @@
 using std::string;
 using std::vector;
 
-#define DEBUG_TRACE1(x) std::cout << "DEBUG: " << x << std::endl;
-#define DEBUG_TRACE2(x,y) std::cout << "DEBUG: " << x << y << std::endl;
 #define CONSOLE_OUTPUT(x) std::cout << x;
