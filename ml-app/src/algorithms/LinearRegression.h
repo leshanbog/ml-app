@@ -31,6 +31,7 @@ private:
 private:
 	vector<long double> m_params;
 	long double m_learningRate;
+	uint32_t m_numberOfIterations;
 };
 
 

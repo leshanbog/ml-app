@@ -71,11 +71,11 @@ private:
 
 		string descr = "\n+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=\n\n\n";
 		descr += alg.GetAlgName() + "\n" + m_parameters["Data file name"] + "\n\n";
-		descr += alg.GetDescriptionOfModel() + "\n\nTime taken to build model (sec)  " + std::to_string(timeForBuild / CLOCKS_PER_SEC);
+		descr += alg.GetDescriptionOfModel() + "\n\nTime taken to build model (sec)  " + std::to_string(timeForBuild / 1'000'000'000.0);
 		if (foldsNum > 1)
 		{
 			descr += "\nFolds number " + std::to_string(foldsNum);
-			descr += "\nTime taken for CV (sec) " + std::to_string(timeForCV / CLOCKS_PER_SEC);
+			descr += "\nTime taken for CV (sec) " + std::to_string(timeForCV / 1'000'000'000.0);
 		}
 		descr += "\n\nRMSE  " + std::to_string(rmse);
 		descr += "\n\n\n+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=\n\n";

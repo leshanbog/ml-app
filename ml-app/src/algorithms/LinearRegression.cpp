@@ -9,27 +9,29 @@ namespace algorithms
 LinearRegression::LinearRegression(const ArgsForAlg& args)
 {
 	m_learningRate = args.argsLongDouble[0];
+	m_numberOfIterations = args.argsLongDouble[1];
 }
 
 void LinearRegression::Learn(const DataFrame& df)
 {
+	// last element - interceptor term
 	m_params.resize(df.GetDimention().second + 1);
 
 	// init with random values between -1 and 1
 	for (size_t i = 0; i < m_params.size(); ++i)
 		m_params[i] = (long double)(rand() % 201 - 100) / (long double)10000.0;
 
-	int numberOfIterations = 5000;
+	int numberOfIterations = 300'000;
 	long double trainingSetSize = df.GetDimention().first;
 
 	for (int i = 0; i < numberOfIterations; ++i)
 	{
 		vector <long double> currentLoss = FindCurrentLoss(df);
-		vector <long double> derivatives = FindDerivatives(df, currentLoss);
+		vector <long double> currentDerivatives = FindDerivatives(df, currentLoss);
 
 		for (size_t j = 0; j < m_params.size(); ++j)
 		{
-			m_params[j] -= m_learningRate / trainingSetSize * derivatives[j];
+			m_params[j] -= m_learningRate / trainingSetSize * currentDerivatives[j];
 		}
 	}
 }
@@ -90,7 +92,7 @@ vector<long double> LinearRegression::FindDerivatives(const DataFrame& df, vecto
 		}
 
 		// interceptor term
-		derivatives[inteceptorTermIndex] += loss[inteceptorTermIndex];
+		derivatives[inteceptorTermIndex] += loss[i];
 	}
 
 	return derivatives;

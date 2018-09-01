@@ -22,9 +22,10 @@ const std::map<std::string, std::string> Information = {
 	{ "HelpCommandinfo", "Command 'info' has 1 argument - number of algorithm\n"},
 	{ "HelpCommandml", "Command 'ml' has 2 necessary arguments - name of data file and number of algorithm\nThey are followed by optional arguments:\n\t-fn   folds number, default = 5\n\t-sep  separator of data, default = ','\n\t-a   arguments for algorithm, define all of them, separe by comma. If you don't define all arguments, default will be used!\n\t-f   feature names provided, default = 1\n\t-n   doing normalization before learning, default = 0\n"},
 
-	{ "InfoCommand1" , "Const prediction has no parameters\n"},
-	{ "InfoCommand2" , "DecisionStump has no parameters\n"},
-	{ "InfoCommand3" , "K nearest neighbours has 1 parameter K, default value is 5\n"},
+	{ "InfoCommand1", "Const prediction has no parameters\n"},
+	{ "InfoCommand2", "DecisionStump has no parameters\n"},
+	{ "InfoCommand3", "K nearest neighbours has 1 parameter K, default value is 5\n"},
+	{ "InfoCommand4", "Linear regression has 2 parameters: learning rate (default = 0.00001), number of iterations (default = 300000)\n"}, 
 
 	{ "InfoCommand2i" , "First parameter - number of models to be bagged, default value is 25\nSecond parameter - size of training set, default = 0.8 * <size of dataset>\n"},
 	{ "InfoCommand3i" , "First parameter - number of models to be boosted, default value is 50\n"}

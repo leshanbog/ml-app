@@ -261,7 +261,7 @@ string RunLogic::StartAlg()
 			break;
 		case 4:
 			if (args.argsLongDouble.empty())
-				args.argsLongDouble = { 0.00001 };
+				args.argsLongDouble = { 0.00001, 300000 };
 			res = BuildAndEstimateModel<LinearRegression>(foldsNum, args);
 			break;
 		case 21:
@@ -333,5 +333,4 @@ int main(int argc, char *argv[])
 	return 0;
 }
 
-
-// TODO: change ArgsForAlgs, default values for LR, number of iterations as a parameter in LR
+// TODO: change ArgsForAlgs
