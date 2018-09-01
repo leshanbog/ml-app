@@ -52,10 +52,10 @@ private:
 		CrossValidation<TLearner> CV;
 		long double rmse = 0;
 
-		std::chrono::high_resolution_clock::time_point start = std::chrono::high_resolution_clock::now();
+		auto start = std::chrono::high_resolution_clock::now();
 		alg.Fit(*m_df);
-		std::chrono::high_resolution_clock::time_point end = std::chrono::high_resolution_clock::now();
-		long double timeForBuild = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count(), timeForCV = 0;
+		auto end = std::chrono::high_resolution_clock::now();
+		long double timeForBuild = (end - start).count(), timeForCV = 0;
 
 		if (foldsNum == 1)
 		{
@@ -66,7 +66,7 @@ private:
 			start = std::chrono::high_resolution_clock::now();
 			rmse = CV.Score(*m_df, foldsNum, args);
 			end = std::chrono::high_resolution_clock::now();
-			timeForCV = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+			timeForCV = (end - start).count();
 		}
 
 		string descr = "\n+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=\n\n\n";
