@@ -12,7 +12,7 @@ def AreClose(actual,expected):
     return (actual <= expected + expected*0.05) and (actual >= expected - expected*0.05)
 
 def AreVeryClose(actual,expected):
-    return (actual <= expected + expected*0.0001) and (actual >= expected - expected*0.0001)
+    return (actual <= expected + expected*0.0001) and (actual >= expected - expected*0.0001) or ((-actual <= -expected - expected*0.0001) and (-actual >= -expected + expected*0.0001))
 
 def GetResult(cmd):
     return subprocess.check_output(app+cmd, shell = True)
@@ -36,7 +36,7 @@ def GetValueAbove(cmd):
     return float(cmd.split()[cmd.split().index('above')+1])
 
 def GetCoeficients(cmd, number):
-    return cmd.split()[cmd.split().index('Coeficients')+1:cmd.split().index('Coeficients')+number+1]
+    return list(map(float, cmd.split()[cmd.split().index('Coeficients')+2:cmd.split().index('Coeficients')+number+2]))
 
 
 # +=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=
@@ -173,11 +173,12 @@ class AlgorithmScore(unittest.TestCase):
         res = GetResult(cmd)
 
         actualCoefs = GetCoeficients(res,2)
-        self.assertTrue(AreVeryClose(actualCoefs[0], 0.3334))
-        self.assertTrue(AreVeryClose(actualCoefs[1], 0.6667))
+	
+        self.assertTrue(AreVeryClose(actualCoefs[0], 0.3333333))
+        self.assertTrue(AreVeryClose(actualCoefs[1], 0.6666666))
 
     def test_LR_5_fold(self):
-        cmd = 'ml ' + app_folder + '../datasets/lr2.csv 4 -a 0.01,100 -fn 5'
+        cmd = 'ml ' + app_folder + '/../datasets/lr2.csv 4 -a 0.01,100'
         res = GetResult(cmd)
 
         actualRmse = GetRmse(res)

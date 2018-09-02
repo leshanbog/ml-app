@@ -155,6 +155,8 @@ string RunLogic::getParam(const char* arg) const
 void RunLogic::LoadData()
 {
 	std::ifstream fin(m_parameters["Data file name"]);
+	if (!fin)
+		std::runtime_error("No such file!\n");
 	char separator = m_parameters["Separator"][0];
 	vector <string> featureNames = GetFeatureNames(fin, separator);
 
