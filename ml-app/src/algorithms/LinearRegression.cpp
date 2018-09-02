@@ -53,7 +53,11 @@ vector <long double> LinearRegression::Predict(const DataFrame& df) const
 
 string LinearRegression::GetDescriptionOfModel() const
 {
-	string descr = "";
+	string descr = "Learning rate = ";
+	descr += std::to_string(m_learningRate);
+	descr += "\nNumber of iterations = ";
+	descr += std::to_string(m_numberOfIterations);
+	descr += "\nCoeficients = ";
 	for (size_t i = 0; i < m_params.size(); ++i)
 		descr += std::to_string(m_params[i]) + ' ';
 	descr += '\n';

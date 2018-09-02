@@ -35,6 +35,9 @@ def GetValueBelow(cmd):
 def GetValueAbove(cmd):
     return float(cmd.split()[cmd.split().index('above')+1])
 
+def GetCoeficients(cmd, number):
+    return cmd.split()[cmd.split().index('Coeficients')+1:cmd.split().index('Coeficients')+number+1]
+
 
 # +=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=
 # +=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=
@@ -165,6 +168,23 @@ class AlgorithmScore(unittest.TestCase):
         actualRmse = GetRmse(res)
         self.assertTrue(AreClose(actualRmse, 0.0318))
 
+    def test_LR_1_fold(self):
+        cmd = 'ml ' + app_folder + '/../datasets/lr1.csv 4 -fn 1 -a 0.001,1000'
+        res = GetResult(cmd)
+
+        actualCoefs = GetCoeficients(res,2)
+        self.assertTrue(AreVeryClose(actualCoefs[0], 0.3334))
+        self.assertTrue(AreVeryClose(actualCoefs[1], 0.6667))
+
+    def test_LR_5_fold(self):
+        cmd = 'ml ' + app_folder + '../datasets/lr2.csv 4 -a 0.01,100 -fn 5'
+        res = GetResult(cmd)
+
+        actualRmse = GetRmse(res)
+        actualCoefs = GetCoeficients(res,2)
+        self.assertTrue(AreVeryClose(actualRmse, 0.7645))
+        self.assertTrue(AreVeryClose(actualCoefs[0], 0.9563))
+        self.assertTrue(AreVeryClose(actualCoefs[1], -0.4078))
 
 
 if __name__ == '__main__':
