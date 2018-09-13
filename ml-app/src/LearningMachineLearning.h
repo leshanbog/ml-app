@@ -19,30 +19,31 @@ namespace core
 using namespace algorithm_helpers;
 using namespace algorithms;
 
+struct MainHelper
+{
+	bool ParseParameters(int argc, char *argv[]);
+
+	void printHelp(int argc, char *argv[]);
+
+	inline void printAlgs();
+
+	void printInfo(int argc, char *argv[]);
+
+	ArgsForAlg ConvertToArgs(const string& params);
+
+	string getParam(const char* arg);
+	map <string,string> m_parameters;
+};
+
+
 
 class RunLogic
 {
 public:
 	string Run(int argc, char *argv[]);
 
-private:
-	bool ParseParameters(int argc, char *argv[]);
-
-	void printHelp(int argc, char *argv[]) const;
-
-	inline void printAlgs() const;
-
-	void printInfo(int argc, char *argv[]) const;
-
-	void LoadData();
-
-	vector <string> GetFeatureNames(std::ifstream& fin, const char separator);
-
-	string StartAlg();
-
-	ArgsForAlg ConvertToArgs(const string& params) const;
-
-	string getParam(const char* arg) const;
+	// for usage in lib
+	void LoadData(string fileName, char separator = ',');
 
 	template <class TLearner> string BuildAndEstimateModel(const int foldsNum, const ArgsForAlg &args)
 	{
@@ -70,7 +71,7 @@ private:
 		}
 
 		string descr = "\n+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=\n\n\n";
-		descr += alg.GetAlgName() + "\n" + m_parameters["Data file name"] + "\n\n";
+		descr += alg.GetAlgName() + "\n" + mainHelper.m_parameters["Data file name"] + "\n\n";
 		descr += alg.GetDescriptionOfModel() + "\n\nTime taken to build model (sec)  " + std::to_string(timeForBuild / 1'000'000'000.0);
 		if (foldsNum > 1)
 		{
@@ -83,11 +84,18 @@ private:
 		return descr;
 	}
 
+private:
+	void LoadData();
+
+	vector <string> GetFeatureNames(std::ifstream& fin, const char separator);
+
+	string StartAlg();
 
 private:
 	DataFrame* m_df;
-	map <string,string> m_parameters;
+	MainHelper mainHelper;
 };
+
 
 
 } // namespace core

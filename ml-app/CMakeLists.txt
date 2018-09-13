@@ -24,4 +24,5 @@ set(SOURCES
     src/LearningMachineLearning.cpp
 )
 
-add_executable(proga ${SOURCES})
+add_executable(proga src/startMain.cpp ${SOURCES})
+add_library(ml_lib_yo STATIC ${SOURCES})

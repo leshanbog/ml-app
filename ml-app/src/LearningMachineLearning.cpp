@@ -10,7 +10,7 @@ namespace core
 
 string RunLogic::Run(int argc, char *argv[])
 {
-	if (ParseParameters(argc, argv))
+	if (mainHelper.ParseParameters(argc, argv))
 	{
 		LoadData();
 		string res = StartAlg();
@@ -19,7 +19,7 @@ string RunLogic::Run(int argc, char *argv[])
 	return "";
 }
 
-void RunLogic::printHelp(int argc, char *argv[]) const
+void MainHelper::printHelp(int argc, char *argv[])
 {
 	if (argc == 0)
 	{
@@ -39,12 +39,12 @@ void RunLogic::printHelp(int argc, char *argv[]) const
 	}
 }
 
-void RunLogic::printAlgs() const
+void MainHelper::printAlgs()
 {
 	CONSOLE_OUTPUT(Information.find("AlgsCommand")->second);
 }
 
-void RunLogic::printInfo(int argc, char *argv[]) const
+void MainHelper::printInfo(int argc, char *argv[])
 {
 	if (argc == 0)
 	{
@@ -71,23 +71,23 @@ void RunLogic::printInfo(int argc, char *argv[]) const
 	}
 }
 
-bool RunLogic::ParseParameters(int argc, char *argv[])
+bool MainHelper::ParseParameters(int argc, char *argv[])
 {
 	string command(argv[0]);
 
 	if (command == "help")
 	{
-		printHelp(argc-1, ++argv);
+		MainHelper::printHelp(argc-1, ++argv);
 		return false;
 	}
 	else if (command == "algs")
 	{
-		printAlgs();
+		MainHelper::printAlgs();
 		return false;
 	}
 	else if (command == "info")
 	{
-		printInfo(argc-1, ++argv);
+		MainHelper::printInfo(argc-1, ++argv);
 		return false;
 	}
 	else if (command == "ml")
@@ -97,15 +97,15 @@ bool RunLogic::ParseParameters(int argc, char *argv[])
 			CONSOLE_OUTPUT(Information.find("HelpCommandml")->second);
 			return false;
 		}
-		m_parameters["Data file name"] = argv[1];
-		m_parameters["Algorithm"] = argv[2];
+		MainHelper::m_parameters["Data file name"] = argv[1];
+		MainHelper::m_parameters["Algorithm"] = argv[2];
 
 
 		// default values
-		m_parameters["Separator"] = ',';
-		m_parameters["Feature names provided"] = "1";
-		m_parameters["Folds number"] = "5";
-		m_parameters["Normalization"] = "0";
+		MainHelper::m_parameters["Separator"] = ',';
+		MainHelper::m_parameters["Feature names provided"] = "1";
+		MainHelper::m_parameters["Folds number"] = "5";
+		MainHelper::m_parameters["Normalization"] = "0";
 
 		int i = 3;
 
@@ -113,7 +113,7 @@ bool RunLogic::ParseParameters(int argc, char *argv[])
 		{
 			if (argv[i][0] == '-')
 			{
-				m_parameters[getParam(&argv[i][1])] = argv[i+1];
+				MainHelper::m_parameters[getParam(&argv[i][1])] = argv[i+1];
 				i+=2;
 			}
 
@@ -127,7 +127,7 @@ bool RunLogic::ParseParameters(int argc, char *argv[])
 	}
 }
 
-string RunLogic::getParam(const char* arg) const
+string MainHelper::getParam(const char* arg)
 {
 	if (!strcmp(arg, "fn"))
 	{
@@ -154,10 +154,37 @@ string RunLogic::getParam(const char* arg) const
 
 void RunLogic::LoadData()
 {
-	std::ifstream fin(m_parameters["Data file name"]);
+	std::ifstream fin(mainHelper.m_parameters["Data file name"]);
 	if (!fin)
 		std::runtime_error("No such file!\n");
-	char separator = m_parameters["Separator"][0];
+	char separator = mainHelper.m_parameters["Separator"][0];
+	vector <string> featureNames = GetFeatureNames(fin, separator);
+
+	Obj x;
+	string descriptionOfObject;
+	vector <Obj> data;
+
+	// reading data file
+	while (!fin.eof())
+	{
+		getline(fin, descriptionOfObject);
+		if (descriptionOfObject.size() == 0)
+			continue;
+		x = Obj(descriptionOfObject, separator);
+		data.push_back(x);
+	}
+
+	m_df = new DataFrame(data);
+	m_df->SetFeatureNames(featureNames);
+
+	fin.close();
+}
+
+void RunLogic::LoadData(string fileName, char separator)
+{
+	std::ifstream fin(fileName);
+	if (!fin)
+		std::runtime_error("No such file!\n");
 	vector <string> featureNames = GetFeatureNames(fin, separator);
 
 	Obj x;
@@ -185,7 +212,7 @@ vector <string> RunLogic::GetFeatureNames(std::ifstream& fin, const char separat
 	vector <string> featureNames;
 	string featuresList;
 
-	if (m_parameters["Feature names provided"] == "1")
+	if (mainHelper.m_parameters["Feature names provided"] == "1")
 	{
 		getline(fin, featuresList);
 		size_t i = 0;
@@ -211,7 +238,7 @@ vector <string> RunLogic::GetFeatureNames(std::ifstream& fin, const char separat
 	return featureNames;
 }
 
-ArgsForAlg RunLogic::ConvertToArgs(const string& params) const
+ArgsForAlg MainHelper::ConvertToArgs(const string& params)
 {
 	ArgsForAlg args;
 	string s = "";
@@ -234,21 +261,21 @@ ArgsForAlg RunLogic::ConvertToArgs(const string& params) const
 
 string RunLogic::StartAlg()
 {
-	int foldsNum = stoi(m_parameters["Folds number"]);
+	int foldsNum = stoi(mainHelper.m_parameters["Folds number"]);
 	if (foldsNum > m_df->GetDimention().first || foldsNum < 1)
 	{
 		throw std::runtime_error("Wrong number of folds\n");
 	}
 
-	bool normalizationNeeded = m_parameters["Normalization"] == "1" ? true : false;
+	bool normalizationNeeded = mainHelper.m_parameters["Normalization"] == "1" ? true : false;
 
 	if (normalizationNeeded)
 		m_df->DoNormalization();
 
-	ArgsForAlg args = ConvertToArgs(m_parameters["Arguments for algorithm"]);
+	ArgsForAlg args = mainHelper.ConvertToArgs(mainHelper.m_parameters["Arguments for algorithm"]);
 	string res;
 
-	switch (stoi(m_parameters["Algorithm"]))
+	switch (stoi(mainHelper.m_parameters["Algorithm"]))
 	{
 		case 1:
 			res = BuildAndEstimateModel<ConstPrediction>(foldsNum, args);
@@ -306,33 +333,5 @@ string RunLogic::StartAlg()
 
 }  // namespace core
 
-
-
-int main(int argc, char *argv[])
-{
-	if (argc == 1)
-	{
-		CONSOLE_OUTPUT(core::Information.find("GetHelp")->second);
-	}
-	else
-	{
-		string res;
-		core::RunLogic logicProcessing;
-		try
-		{
-			res = logicProcessing.Run(argc-1, ++argv);
-		}
-		catch (const std::exception& err)
-		{
-			res = "Error: ";
-			res += err.what();
-			res += "\n";
-		}
-
-		CONSOLE_OUTPUT(res);
-	}
-
-	return 0;
-}
 
 // TODO: change ArgsForAlgs
