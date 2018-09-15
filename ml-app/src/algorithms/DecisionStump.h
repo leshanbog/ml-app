@@ -35,8 +35,7 @@ public:
 
 	void Learn(const DataFrame& df) override;
 
-	// make predictions with params p and main feature j
-	vector <long double> Predict(const DataFrame& df) const override;
+	vector<long double> Predict(const DataFrame& df) const override;
 
 	string GetDescriptionOfModel() const override;
 private:
