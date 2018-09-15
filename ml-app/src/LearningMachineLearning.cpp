@@ -185,6 +185,8 @@ void RunLogic::LoadData(string fileName, char separator)
 	std::ifstream fin(fileName);
 	if (!fin)
 		std::runtime_error("No such file!\n");
+
+	mainHelper.m_parameters["Feature names provided"] = "1";
 	vector <string> featureNames = GetFeatureNames(fin, separator);
 
 	Obj x;
