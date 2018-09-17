@@ -15,6 +15,8 @@ public:
 	DataFrame() {};
 
 	vector<Obj>::const_iterator GetData() const;
+	void Add(const Obj& obj);
+	void Add(Obj&& obj);
 	pair <int, int> GetDimention() const;
 	vector <string> GetFeatureNames() const;
 	void SetFeatureNames(const vector <string> &);

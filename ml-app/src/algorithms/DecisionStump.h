@@ -17,7 +17,7 @@ struct DecisionStumpParams
 
 struct PassingParameters
 {
-	int mainFeature;
+	uint32_t mainFeature;
 	long double rmse;
 	DecisionStumpParams dsParams;
 };
@@ -26,6 +26,7 @@ struct PassingParameters
 class DecisionStump : public Algo
 {
 public:
+	DecisionStump() {}
 	DecisionStump(const ArgsForAlg& args) {}
 
 	inline string GetAlgName() const override
@@ -38,9 +39,19 @@ public:
 	vector<long double> Predict(const DataFrame& df) const override;
 
 	string GetDescriptionOfModel() const override;
+
+	uint32_t GetMainFeature()
+	{
+		return m_mainFeature;
+	}
+
+	long double GetThreshold()
+	{
+			return m_params.threshold;
+	}
 private:
 	DecisionStumpParams m_params = { 0.0 ,0.0 ,0.0 };
-	int m_mainFeature = 0;
+	uint32_t m_mainFeature = 0;
 
 	// find params for j-th feature in DataFrame
 	PassingParameters  FindParams(const DataFrame& df, int) const;

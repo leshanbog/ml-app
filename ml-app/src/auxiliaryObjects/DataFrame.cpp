@@ -12,7 +12,7 @@ DataFrame::DataFrame(const vector<Obj>& v)
 	data = v;
 	if (v.size() != 0)
 		dimention = {v.size(), v[0].description.size()};
-	else 
+	else
 		dimention = { 0,0 };
 }
 
@@ -27,6 +27,18 @@ DataFrame::DataFrame(vector<Obj>&& v)
 vector<Obj>::const_iterator DataFrame::GetData() const
 {
 	return data.begin();
+}
+
+void DataFrame::Add(const Obj& obj)
+{
+	std::cout << "DEBUG\tWrong add\n";
+	data.push_back(obj);
+}
+
+void DataFrame::Add(Obj&& obj)
+{
+	std::cout << "DEBUG\tMove-add\n";
+	data.emplace_back(obj);
 }
 
 

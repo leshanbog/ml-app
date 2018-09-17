@@ -10,6 +10,7 @@ namespace algorithms
 class ConstPrediction : public Algo
 {
 public:
+	ConstPrediction() {}
 	ConstPrediction(const ArgsForAlg& args){}
 
 	inline string GetAlgName() const override

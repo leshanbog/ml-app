@@ -173,7 +173,7 @@ class AlgorithmScore(unittest.TestCase):
         res = GetResult(cmd)
 
         actualCoefs = GetCoeficients(res,2)
-	
+
         self.assertTrue(AreVeryClose(actualCoefs[0], 0.3333333))
         self.assertTrue(AreVeryClose(actualCoefs[1], 0.6666666))
 
