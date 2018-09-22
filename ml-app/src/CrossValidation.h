@@ -9,7 +9,6 @@
 #include "auxiliaryObjects.h"
 
 
-
 enum DataRegime { TRAIN, TEST };
 
 template <class TLearner>
@@ -68,8 +67,6 @@ template<class TLearner> void CrossValidation<TLearner>::StepScore(const DataFra
 template<class TLearner> long double CrossValidation<TLearner>::Score(const DataFrame &df, int foldsNum, const ArgsForAlg& args)
 {
 	Init(df.GetDimention().first, foldsNum);
-
-
 
 	long double ansRMSE = 0;
 	vector <std::thread*> threads;

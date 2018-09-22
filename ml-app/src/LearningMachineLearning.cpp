@@ -295,6 +295,9 @@ string RunLogic::StartAlg()
 				args.argsLongDouble = { 0.00001, 300000 };
 			res = BuildAndEstimateModel<LinearRegression>(foldsNum, args);
 			break;
+		case 5:
+			res = BuildAndEstimateModel<DecisionTree>(foldsNum, args);
+			break;
 		case 21:
 			if (args.argsLongDouble.empty())
 				args.argsLongDouble = {25, m_df->GetDimention().first * 0.8};
@@ -336,4 +339,4 @@ string RunLogic::StartAlg()
 }  // namespace core
 
 
-// TODO: change ArgsForAlgs
+// TODO: change ArgsForAlgs, log systemm LR with Normalization Prediction

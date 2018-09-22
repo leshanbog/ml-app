@@ -1,9 +1,12 @@
 #include "DecisionTree.h"
 #include "DecisionStump.h"
 
+// TODO: delete
+#include <iostream>
 
 namespace algorithms
 {
+
 
 void DecisionTree::Learn(const DataFrame& df)
 {
@@ -12,25 +15,28 @@ void DecisionTree::Learn(const DataFrame& df)
 
 void DecisionTree::RecursiveLearn(const DataFrame& df, uint32_t pos)
 {
-    while(!IsNeedToStop(df))
+    std::cout << "Size of " << pos << " df = " << df.GetDimention().first << "\n";
+    if (!IsNeedToStop(df))
     {
         DecisionStump ds;
         ds.Learn(df);
 
-        m_dtr.add(pos, ds.GetMainFeature(), ds.GetThreshold());
+        m_dtr.Add(pos, ds.GetMainFeature(), ds.GetThreshold());
 
         DataFrame subDf1, subDf2;
         SplitDataFrame(m_dtr[pos], df, subDf1, subDf2);
         RecursiveLearn(subDf1, 2 * pos + 1);
         RecursiveLearn(subDf2, 2 * pos + 2);
     }
-
-    m_dtr.add(pos, ~0, UsefulMath::mean(df.GetAnswers()));
+    else
+    {
+        m_dtr.Add(pos, ~0, UsefulMath::mean(df.GetAnswers()));
+    }
 }
 
 bool DecisionTree::IsNeedToStop(const DataFrame& df) const
 {
-    return df.GetDimention().first > 10;
+    return df.GetDimention().first <= 10;
 }
 
 void DecisionTree::SplitDataFrame(const std::function<bool(const Obj& obj)>& pred, const DataFrame& df, DataFrame& outSubDf1, DataFrame& outSubDf2)
@@ -55,12 +61,12 @@ vector<long double> DecisionTree::Predict(const DataFrame& df) const
 
     for (uint32_t i = 0; i < ans.size(); ++i)
     {
-        ans[i] = Sift(df.GetData()[i]);
+        ans[i] = SiftAndPredict(df.GetData()[i]);
     }
     return ans;
 }
 
-long double DecisionTree::Sift(const Obj& obj) const
+long double DecisionTree::SiftAndPredict(const Obj& obj) const
 {
     uint32_t cur = 0;
     while (m_dtr.HaveThisPos(cur))
@@ -74,7 +80,12 @@ long double DecisionTree::Sift(const Obj& obj) const
             cur = cur * 2 + 2;
         }
     }
+    return m_dtr.GetValue(cur);
 }
 
+string DecisionTree::GetDescriptionOfModel() const
+{
+    return m_dtr.ShowTree(m_featureNames);
+}
 
 } // algorithms

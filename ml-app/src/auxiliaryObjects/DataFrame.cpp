@@ -1,7 +1,8 @@
 #include "DataFrame.h"
 
 #include <limits>
-//TODO: delete
+
+// TODO: delete
 #include <iostream>
 
 namespace algorithm_helpers
@@ -11,17 +12,17 @@ DataFrame::DataFrame(const vector<Obj>& v)
 {
 	data = v;
 	if (v.size() != 0)
-		dimention = {v.size(), v[0].description.size()};
+		dimention = std::make_pair(v.size(), v[0].description.size());
 	else
-		dimention = { 0,0 };
+		dimention = std::make_pair( 0,0 );
 }
 
 
 DataFrame::DataFrame(vector<Obj>&& v)
 {
 	data = move(v);
-	if (data.size() != 0)dimention = { data.size(),data[0].description.size() };
-	else dimention = { 0,0 };
+	if (data.size() != 0)dimention = std::make_pair( data.size(),data[0].description.size() );
+	else dimention = std::make_pair( 0,0 );
 }
 
 vector<Obj>::const_iterator DataFrame::GetData() const
@@ -33,12 +34,16 @@ void DataFrame::Add(const Obj& obj)
 {
 	std::cout << "DEBUG\tWrong add\n";
 	data.push_back(obj);
+	dimention.first++;
+	dimention.second = obj.description.size();
 }
 
 void DataFrame::Add(Obj&& obj)
 {
 	std::cout << "DEBUG\tMove-add\n";
 	data.emplace_back(obj);
+	dimention.first++;
+	dimention.second = obj.description.size();
 }
 
 

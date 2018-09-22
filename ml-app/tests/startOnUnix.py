@@ -61,7 +61,7 @@ class SimpleCommands(unittest.TestCase):
     def test_Algs_command(self):
         cmd = 'algs'
         actual = GetResult(cmd)
-        expected = 'These are basic algorithms:\n\t1 - Const prediction\n\t2 - DecisionStump\n\t3 - K nearest neighbours\n\nTo build bagged algorithm type 2i, where i - number of basic algorithm\nTo build boosted algorithm type 3i, where i - number of basic algorithm\n\nTo get information about algorithm parameters and default values use command \'info <i>\', where i - number of algorithm\n'
+        expected = 'These are basic algorithms:\n\t1 - Const prediction\n\t2 - DecisionStump\n\t3 - K nearest neighbours\n\nTo build bagged algorithm type 2i, where i - number of basic algorithm\nTo build boosted algorithm type 3i, where i - number of basic algorithm\n\nTo get information about algorithm parameters and default values use command \'info <i>\', where i - number of algorithm\nAdditional algorithms:\n\t4 - Linear Regression\n\t5 - Decision Tree\n'
         self.assertEqual(actual,expected)
 
     def test_Info_command(self):
@@ -102,7 +102,6 @@ class AlgorithmScore(unittest.TestCase):
         self.assertTrue(AreVeryClose(actualPred, 105.622009569378))
         self.assertEqual(actualFolds, 5)
 
-
     def test_argument_folds_number_and_ConstPrediction(self):
         cmd = 'ml ' + app_folder + '/../datasets/cpu.small.csv 1 -fn 20'
         res = GetResult(cmd)
@@ -130,7 +129,6 @@ class AlgorithmScore(unittest.TestCase):
         self.assertTrue(AreVeryClose(actualValueAbove, 961.25))
         self.assertTrue(AreVeryClose(actualValueThreshold, 48000.0))
 
-
     def test_DecisionStump_all_folds(self):
         cmd = 'ml ' + app_folder + '/../datasets/cpu.small.csv 2 -fn 209'
         res = GetResult(cmd)
@@ -146,6 +144,7 @@ class AlgorithmScore(unittest.TestCase):
         self.assertTrue(AreVeryClose(actualValueAbove, 961.25))
         self.assertTrue(AreVeryClose(actualValueThreshold, 48000.0))
         self.assertEqual(actualFoldsNumber, 209)
+
 
     def test_KNN_1_fold_2_n(self):
         cmd = 'ml ' + app_folder + '/../datasets/puma.csv 3 -fn 1 -a 2'
@@ -168,8 +167,30 @@ class AlgorithmScore(unittest.TestCase):
         actualRmse = GetRmse(res)
         self.assertTrue(AreClose(actualRmse, 0.0318))
 
+    def test_KNN_N209_full_traing_set(self):
+        cmd = 'ml ' + app_folder + '/../datasets/cpu.small.csv 3 -a 209 -fn 1'
+        res = GetResult(cmd)
+        
+        actualRmse = GetRmse(res)
+        self.assertTrue(AreVeryClose(actualRmse, 160.4455))
+
+    def test_KNN_N1_all_folds(self):
+        cmd = 'ml ' + app_folder + '/../datasets/cpu.small.csv 3 -a 1 -fn 209'
+        res = GetResult(cmd)
+        
+        actualRmse = GetRmse(res)
+        self.assertTrue(AreClose(actualRmse, 61))
+
+    def test_KNN_N77_all_folds(self):
+        cmd = 'ml ' + app_folder + '/../datasets/cpu.small.csv 3 -a 77 -fn 209'
+        res = GetResult(cmd)
+        
+        actualRmse = GetRmse(res)
+
+        self.assertTrue(AreClose(actualRmse, 131))
+
     def test_LR_1_fold(self):
-        cmd = 'ml ' + app_folder + '/../datasets/lr1.csv 4 -fn 1 -a 0.001,1000'
+        cmd = 'ml ' + app_folder + '/../datasets/lr1.csv 4 -fn 1 -a 0.05,2000'
         res = GetResult(cmd)
 
         actualCoefs = GetCoeficients(res,2)
@@ -178,11 +199,12 @@ class AlgorithmScore(unittest.TestCase):
         self.assertTrue(AreVeryClose(actualCoefs[1], 0.6666666))
 
     def test_LR_5_fold(self):
-        cmd = 'ml ' + app_folder + '/../datasets/lr2.csv 4 -a 0.01,100'
+        cmd = 'ml ' + app_folder + '/../datasets/lr2.csv 4 -a 0.05,1337'
         res = GetResult(cmd)
 
         actualRmse = GetRmse(res)
         actualCoefs = GetCoeficients(res,2)
+        
         self.assertTrue(AreVeryClose(actualRmse, 0.7645))
         self.assertTrue(AreVeryClose(actualCoefs[0], 0.9563))
         self.assertTrue(AreVeryClose(actualCoefs[1], -0.4078))

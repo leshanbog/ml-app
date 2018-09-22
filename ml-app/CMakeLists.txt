@@ -17,10 +17,12 @@ set(SOURCES
     src/auxiliaryObjects/Obj.cpp
     src/auxiliaryObjects/DataFrame.cpp
     src/auxiliaryObjects/UsefulMath.cpp
+    src/auxiliaryObjects/DecisionTreeRepresentation.cpp
     src/algorithms/ConstPrediction.cpp
     src/algorithms/DecisionStump.cpp
     src/algorithms/KNN.cpp
     src/algorithms/LinearRegression.cpp
+    src/algorithms/DecisionTree.cpp
     src/LearningMachineLearning.cpp
 )
 

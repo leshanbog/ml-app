@@ -2,6 +2,9 @@
 
 #include <cstdlib>
 
+//TODO: delete
+#include <iostream>
+
 namespace algorithms
 {
 
@@ -21,11 +24,15 @@ void LinearRegression::Learn(const DataFrame& df)
 	for (size_t i = 0; i < m_params.size(); ++i)
 		m_params[i] = (long double)(rand() % 201 - 100) / (long double)10000.0;
 
-	int numberOfIterations = 300'000;
 	long double trainingSetSize = df.GetDimention().first;
 
-	for (int i = 0; i < numberOfIterations; ++i)
+	for (int i = 0; i < m_numberOfIterations; ++i)
 	{
+		// TODO: delete
+		if (i % 20000 == 0)
+		{
+			std::cout << i << " iteration...\n";
+		}
 		vector <long double> currentLoss = FindCurrentLoss(df);
 		vector <long double> currentDerivatives = FindDerivatives(df, currentLoss);
 

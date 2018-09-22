@@ -1,2 +1,4 @@
-Type:
+Type for release version:
 	cmake .. && make
+Type for debug version:
+	cmake -DCMAKE_BUILD_TYPE=Debug .. && make
