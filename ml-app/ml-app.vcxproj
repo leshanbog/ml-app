@@ -149,11 +149,13 @@
     <ClInclude Include="src\algorithms\BoostedAlg.h" />
     <ClInclude Include="src\algorithms\ConstPrediction.h" />
     <ClInclude Include="src\algorithms\DecisionStump.h" />
+    <ClInclude Include="src\algorithms\DecisionTree.h" />
     <ClInclude Include="src\algorithms\KNN.h" />
     <ClInclude Include="src\algorithms\LinearRegression.h" />
     <ClInclude Include="src\auxiliaryObjects.h" />
     <ClInclude Include="src\auxiliaryObjects\ArgsForAlg.h" />
     <ClInclude Include="src\auxiliaryObjects\DataFrame.h" />
+    <ClInclude Include="src\auxiliaryObjects\DecisionTreeRepresentation.h" />
     <ClInclude Include="src\auxiliaryObjects\Obj.h" />
     <ClInclude Include="src\auxiliaryObjects\UsefulMath.h" />
     <ClInclude Include="src\CrossValidation.h" />
@@ -163,12 +165,15 @@
   <ItemGroup>
     <ClCompile Include="src\algorithms\ConstPrediction.cpp" />
     <ClCompile Include="src\algorithms\DecisionStump.cpp" />
+    <ClCompile Include="src\algorithms\DecisionTree.cpp" />
     <ClCompile Include="src\algorithms\KNN.cpp" />
     <ClCompile Include="src\algorithms\LinearRegression.cpp" />
     <ClCompile Include="src\auxiliaryObjects\DataFrame.cpp" />
+    <ClCompile Include="src\auxiliaryObjects\DecisionTreeRepresentation.cpp" />
     <ClCompile Include="src\auxiliaryObjects\Obj.cpp" />
     <ClCompile Include="src\auxiliaryObjects\UsefulMath.cpp" />
     <ClCompile Include="src\LearningMachineLearning.cpp" />
+    <ClCompile Include="src\startMain.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

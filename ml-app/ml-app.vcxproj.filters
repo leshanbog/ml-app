@@ -66,6 +66,8 @@
       <Filter>src\auxiliaryObjects</Filter>
     </ClInclude>
     <ClInclude Include="src\algorithms\LinearRegression.h" />
+    <ClInclude Include="src\algorithms\DecisionTree.h" />
+    <ClInclude Include="src\auxiliaryObjects\DecisionTreeRepresentation.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\LearningMachineLearning.cpp">
@@ -90,5 +92,8 @@
       <Filter>src\auxiliaryObjects</Filter>
     </ClCompile>
     <ClCompile Include="src\algorithms\LinearRegression.cpp" />
+    <ClCompile Include="src\startMain.cpp" />
+    <ClCompile Include="src\algorithms\DecisionTree.cpp" />
+    <ClCompile Include="src\auxiliaryObjects\DecisionTreeRepresentation.cpp" />
   </ItemGroup>
 </Project>

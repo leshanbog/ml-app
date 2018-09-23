@@ -4,6 +4,9 @@
 #include <string>
 #include <cmath>
 
+//TODO: delete
+#include <iostream>
+
 namespace algorithm_helpers
 {
 
@@ -89,22 +92,32 @@ inline uint32_t DecisionTreeRepresentation::GetTreeWidth() const
     auto maxElem = m_tree.end();
     --maxElem;
     return pow(2,floor(log2(maxElem->first+1)));
-
 }
 
 inline string DecisionTreeRepresentation::ConstructNode(uint32_t curValue, const vector<string>& featureNames) const
 {
     auto it = m_tree.find(curValue);
-    return "[ " + featureNames[it->second.first] + " < " + std::to_string(it->second.second) + " ]";
+	if (it != m_tree.end())
+	{
+		if (it->second.first == (~(uint32_t)0))
+			return "[ " + std::to_string(it->second.second) + " ]";
+		else
+			return "[ " + featureNames[it->second.first] + " < " + std::to_string(it->second.second) + " ]";
+	}
+	else
+	{
+		return "";
+	}
 }
 
  void DecisionTreeRepresentation::FillTreeViewWithValues(uint32_t treeLevel, float nodeNumber, uint32_t value, const vector<string>& featureNames, vector<vector<string> >& outView) const
  {
     if (treeLevel == outView.size())
         return;
+	std::cout << treeLevel << " : " << nodeNumber << '\n';
     outView[treeLevel][nodeNumber] = ConstructNode(value, featureNames);
-    FillTreeViewWithValues(treeLevel+1, nodeNumber - nodeNumber/2, value*2+1, featureNames, outView);
-    FillTreeViewWithValues(treeLevel+1, nodeNumber + nodeNumber/2, value*2+2, featureNames, outView);
+    FillTreeViewWithValues(treeLevel+1, nodeNumber - GetTreeWidth() / pow(2,treeLevel+2), value*2+1, featureNames, outView);
+    FillTreeViewWithValues(treeLevel+1, nodeNumber + GetTreeWidth() / pow(2, treeLevel + 2), value*2+2, featureNames, outView);
  }
 
 } // algorithm_helpers
