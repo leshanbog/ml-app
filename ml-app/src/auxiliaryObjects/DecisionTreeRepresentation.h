@@ -27,6 +27,7 @@ private:
     inline uint32_t GetTreeWidth() const;
     inline string ConstructNode(uint32_t curValue, const vector<string>& featureNames) const;
     void FillTreeViewWithValues(uint32_t treeLevel, float nodeNumber, uint32_t value, const vector<string>& featureNames, vector<vector<string> >& outView) const;
+	void FormOutput(string& T, const vector<vector<string> >& view) const;
 private:
     std::map<uint32_t, std::pair<uint32_t, long double> > m_tree;
 };

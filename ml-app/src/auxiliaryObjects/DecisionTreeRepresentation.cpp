@@ -39,45 +39,21 @@ long double DecisionTreeRepresentation::GetValue(uint32_t pos) const
 string DecisionTreeRepresentation::ShowTree(const vector<string>& featureNames) const
 {
     string T = "Decision tree:\n";
-    
-    /*
-    uint32_t cur = 0;
-    std::queue<uint32_t> treeLevel;
-
-    if (HaveThisPos(cur))
-        treeLevel.push(cur);
-
-    while (!treeLevel.empty())
-    {
-        std::queue<int> nextTreelevel;
-        while (!treeLevel.empty())
-        {
-            cur = treeLevel.front();
-            if (HaveThisPos(2*cur+1))
-                nextTreelevel.push(2*cur+1);
-            if (HaveThisPos(2*cur+2))
-                nextTreelevel.push(2*cur+2);
-            treeLevel.pop();
-            T += " [ ";
-            T += featureNames[m_tree.find(cur)->second.first];
-            T += " < ";
-            T += std::to_string(m_tree.find(cur)->second.second);
-            T += " ] ";
-        }
-        T += '\n';
-
-        while (!nextTreelevel.empty())
-        {
-            treeLevel.push(nextTreelevel.front());
-            nextTreelevel.pop();
-        }
-    }
-    */
 
    vector<vector<string> >  view(GetTreeHeight(), vector<string> (GetTreeWidth()));
    FillTreeViewWithValues(0, GetTreeWidth() / 2, 0, featureNames, view);
 
-    return T;
+   FormOutput(T, view);
+   for (int i = 0; i < view.size(); ++i)
+   {
+	   for (int j = 0; j < view[0].size(); ++j)
+	   {
+		   T += view[i][j];
+	   }
+	   T += '\n';
+   }
+
+   return T;
 }
 
 inline uint32_t DecisionTreeRepresentation::GetTreeHeight() const
@@ -118,6 +94,38 @@ inline string DecisionTreeRepresentation::ConstructNode(uint32_t curValue, const
     outView[treeLevel][nodeNumber] = ConstructNode(value, featureNames);
     FillTreeViewWithValues(treeLevel+1, nodeNumber - GetTreeWidth() / pow(2,treeLevel+2), value*2+1, featureNames, outView);
     FillTreeViewWithValues(treeLevel+1, nodeNumber + GetTreeWidth() / pow(2, treeLevel + 2), value*2+2, featureNames, outView);
+ }
+
+ void DecisionTreeRepresentation::FormOutput(string& T, const vector<vector<string>>& view) const
+ {
+	 int maxLength = 0;
+	 for (int i = 0; i < view.size(); ++i)
+		 for (int j = 0; j < view[0].size(); ++j)
+			 if (view[i][j].size() > maxLength)
+				 maxLength = view[i][j].size();
+
+	 string emptyTemplate(maxLength, ' ');
+
+	 for (int i = 0; i < view.size(); ++i)
+	 {
+		 for (int j = 0; j < view[0].size(); ++j)
+		 {
+			 if (view[i][j].size() == 0)
+			 {
+				 T += emptyTemplate;
+			 }
+			 else if (view[i][j].size() < maxLength)
+			 {
+				 int diff = maxLength - view[i][j].size();
+				 T += string((diff + 1) / 2, ' ') + view[i][j] + string(diff / 2, ' ');
+			 }
+			 else
+			 {
+				 T += view[i][j];
+			 }
+		 }
+		 T += '\n';
+	 }
  }
 
 } // algorithm_helpers

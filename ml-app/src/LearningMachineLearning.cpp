@@ -156,7 +156,7 @@ void RunLogic::LoadData()
 {
 	std::ifstream fin(mainHelper.m_parameters["Data file name"]);
 	if (!fin)
-		std::runtime_error("No such file!\n");
+		throw std::runtime_error("No such file!\n");
 	char separator = mainHelper.m_parameters["Separator"][0];
 	vector <string> featureNames = GetFeatureNames(fin, separator);
 
@@ -184,7 +184,7 @@ void RunLogic::LoadData(string fileName, char separator)
 {
 	std::ifstream fin(fileName);
 	if (!fin)
-		std::runtime_error("No such file!\n");
+		throw std::runtime_error("No such file!\n");
 
 	mainHelper.m_parameters["Feature names provided"] = "1";
 	vector <string> featureNames = GetFeatureNames(fin, separator);
