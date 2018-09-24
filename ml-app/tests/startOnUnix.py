@@ -209,6 +209,14 @@ class AlgorithmScore(unittest.TestCase):
         self.assertTrue(AreVeryClose(actualCoefs[0], 0.9563))
         self.assertTrue(AreVeryClose(actualCoefs[1], -0.4078))
 
+    def test_LR_5_fold_norm(self):
+        cmd = 'ml ' + app_folder + '/../datasets/lr2.csv 4 -n 1'
+        res = GetResult(cmd)
+
+        actualRmse = GetRmse(res)   
+        print(actualRmse)     
+        self.assertTrue(AreVeryClose(actualRmse, 0.7645))
+
 
 if __name__ == '__main__':
     unittest.main(argv=['first-arg-is-ignored'])

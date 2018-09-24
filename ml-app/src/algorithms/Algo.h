@@ -14,12 +14,22 @@ public:
 	void Fit(const DataFrame& df)
 	{
 		m_featureNames = df.GetFeatureNames();
+		if (df.m_wasNormalized)
+			m_statsForNormalization = df.m_stats;
+
 		Learn(df);
 	}
 
-	virtual void Learn(const DataFrame&) = 0;
+	virtual void Learn(const DataFrame& df) = 0;
 
-	virtual vector <long double> Predict(const DataFrame&) const = 0;
+	vector <long double> PredictResult(DataFrame& df) const
+	{
+		if (!m_statsForNormalization.empty())
+			df.PerformNormalization(m_statsForNormalization);
+		return Predict(df);
+	}
+
+	virtual vector <long double> Predict(const DataFrame& df) const = 0;
 
 	virtual string GetDescriptionOfModel() const = 0;
 
@@ -27,6 +37,7 @@ public:
 
 protected:
 	vector <string> m_featureNames;
+	vector<StatisticsForNormalization> m_statsForNormalization;
 };
 
 

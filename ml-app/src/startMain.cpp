@@ -3,6 +3,7 @@
 
 int main(int argc, char *argv[])
 {
+	DEBUG_LOG("DEBUG STARTED");
 	if (argc == 1)
 	{
 		CONSOLE_OUTPUT(core::Information.find("GetHelp")->second);

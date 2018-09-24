@@ -60,7 +60,7 @@ public:
 
 		if (foldsNum == 1)
 		{
-			rmse = UsefulMath::RMSE(alg.Predict(*m_df), m_df->GetAnswers());
+			rmse = UsefulMath::RMSE(alg.PredictResult(*m_df), m_df->GetAnswers());
 		}
 		else
 		{
@@ -71,7 +71,10 @@ public:
 		}
 
 		string descr = "\n+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=\n\n\n";
-		descr += alg.GetAlgName() + "\n" + mainHelper.m_parameters["Data file name"] + "\n\n";
+		descr += alg.GetAlgName();
+		if (m_df->m_wasNormalized)
+			descr += " + normalizzation";
+		descr += "\n" + mainHelper.m_parameters["Data file name"] + "\n\n";
 		descr += alg.GetDescriptionOfModel() + "\n\nTime taken to build model (sec)  " + std::to_string(timeForBuild / 1'000'000'000.0);
 		if (foldsNum > 1)
 		{

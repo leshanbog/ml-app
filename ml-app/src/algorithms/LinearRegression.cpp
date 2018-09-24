@@ -2,8 +2,6 @@
 
 #include <cstdlib>
 
-//TODO: delete
-#include <iostream>
 
 namespace algorithms
 {
@@ -28,11 +26,8 @@ void LinearRegression::Learn(const DataFrame& df)
 
 	for (int i = 0; i < m_numberOfIterations; ++i)
 	{
-		// TODO: delete
-		if (i % 20000 == 0)
-		{
-			std::cout << i << " iteration...\n";
-		}
+		DEBUG_COND_TRACE2(i % 20000 == 0, i, " iteration...");
+
 		vector <long double> currentLoss = FindCurrentLoss(df);
 		vector <long double> currentDerivatives = FindDerivatives(df, currentLoss);
 

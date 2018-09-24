@@ -6,6 +6,13 @@ namespace algorithm_helpers
 {
 
 
+struct StatisticsForNormalization
+{
+	long double mean = 0;
+	long double diffMaxMin = 0;
+	long double min = std::numeric_limits<long double>::max();
+};
+
 class DataFrame
 {
 public:
@@ -22,6 +29,10 @@ public:
 	void SetFeatureNames(const vector <string> &);
 	void ChangeAnswers(const vector <long double> &);
 	void DoNormalization();
+	void PerformNormalization(const vector<StatisticsForNormalization>& stats);
+
+	vector<StatisticsForNormalization> m_stats;
+	bool m_wasNormalized = false;
 private:
 	vector <Obj> data;
 	pair <size_t, size_t> dimention;

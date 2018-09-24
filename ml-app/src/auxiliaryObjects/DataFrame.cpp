@@ -82,39 +82,38 @@ vector<long double> DataFrame::GetAnswers() const
 
 void DataFrame::DoNormalization()
 {
-	struct Statistics
-	{
-		long double mean = 0;
-		long double max = 0;
-		long double min = std::numeric_limits<long double>::max();
-	};
-
-	vector<Statistics> v(dimention.second);
+	m_stats.resize(dimention.second);
 
 	for (size_t i = 0; i < dimention.first; ++i)
 	{
     	for (size_t j = 0; j < dimention.second; ++j)
     	{
-    		v[j].mean += (data[i].description[j] - v[j].mean) / (i+1);
+    		m_stats[j].mean += (data[i].description[j] - m_stats[j].mean) / (i+1);
 
-    		if (data[i].description[j] > v[j].max)
-    			v[j].max = data[i].description[j];
+    		if (data[i].description[j] > m_stats[j].diffMaxMin)
+    			m_stats[j].diffMaxMin = data[i].description[j];
 
-    		if (data[i].description[j] < v[j].min)
-    			v[j].min = data[i].description[j];
+    		if (data[i].description[j] < m_stats[j].min)
+    			m_stats[j].min = data[i].description[j];
     	}
 	}
 
-	for (size_t i = 0; i < v.size(); ++i)
+	for (size_t i = 0; i < m_stats.size(); ++i)
 	{
-		v[i].max -= v[i].min;
+		m_stats[i].diffMaxMin -= m_stats[i].min;
 	}
 
+	PerformNormalization(m_stats);
+	m_wasNormalized = true;
+}
+
+void DataFrame::PerformNormalization(const vector<StatisticsForNormalization>& stats)
+{
 	for (size_t i = 0; i < dimention.first; ++i)
 	{
 		for (size_t j = 0; j < dimention.second; ++j)
 		{
-			data[i].description[j] = (data[i].description[j] - v[j].mean) / v[j].max;
+			data[i].description[j] = (data[i].description[j] - stats[j].mean) / stats[j].diffMaxMin;
 		}
 	}
 }

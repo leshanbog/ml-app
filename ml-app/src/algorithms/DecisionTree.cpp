@@ -1,8 +1,9 @@
 #include "DecisionTree.h"
 #include "DecisionStump.h"
 
-// TODO: delete
-#include <iostream>
+#ifndef NDEBUG
+    #include <iostream>
+#endif
 
 namespace algorithms
 {
@@ -15,7 +16,7 @@ void DecisionTree::Learn(const DataFrame& df)
 
 void DecisionTree::RecursiveLearn(const DataFrame& df, uint32_t pos)
 {
-    std::cout << "Size of " << pos << " df = " << df.GetDimention().first << "\n";
+    DEBUG_TRACE4("Size of", pos, " df = ", df.GetDimention().first);
     if (!IsNeedToStop(df))
     {
         DecisionStump ds;
