@@ -7,8 +7,8 @@ int main()
 	core::RunLogic rl;
 	rl.LoadData("../datasets/cpu.small.csv", ',');
 	ArgsForAlg args;
-	args.argsLongDouble = {};
-	auto res = rl.BuildAndEstimateModel<algorithms::DecisionStump>(5, args); 
+	args.argsLongDouble = {30, 180 };
+	auto res = rl.BuildAndEstimateModel<algorithms::BaggedAlg<algorithms::DecisionTree>>(5, args); 
 	std::cout << res;
 	return 0;
 }
