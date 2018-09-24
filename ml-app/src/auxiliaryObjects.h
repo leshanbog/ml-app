@@ -3,7 +3,7 @@
 #include <vector>
 #include <string>
 
-#ifdef NDEBUG
+#ifdef L_DEBUG
 	#include <iostream>
 #endif
 
@@ -19,7 +19,7 @@ using std::vector;
 
 #define CONSOLE_OUTPUT(x) std::cout << x;
 
-#ifdef NDEBUG
+#ifdef L_DEBUG
         #define DEBUG_LOG(x) std::cout << x << '\n';
         #define DEBUG_TRACE2(x,y) std::cout << x << ' ' << y << '\n';
         #define DEBUG_TRACE3(x,y,z) std::cout << x << ' ' << y << ' ' << z << '\n';
