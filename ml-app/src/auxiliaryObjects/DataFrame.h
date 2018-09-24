@@ -1,5 +1,6 @@
 #pragma once
 
+#include <limits>
 #include "Obj.h"
 
 namespace algorithm_helpers
