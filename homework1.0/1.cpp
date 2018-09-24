@@ -8,7 +8,7 @@ int main()
 	rl.LoadData("../datasets/cpu.small.csv", ',');
 	ArgsForAlg args;
 	args.argsLongDouble = {30, 180 };
-	auto res = rl.BuildAndEstimateModel<algorithms::BaggedAlg<algorithms::DecisionTree>>(5, args); 
+	auto res = rl.BuildAndEstimateModel<algorithms::DecisionTree>(5, args); 
 	std::cout << res;
 	return 0;
 }

@@ -38,7 +38,7 @@ long double DecisionTreeRepresentation::GetValue(uint32_t pos) const
 
 string DecisionTreeRepresentation::ShowTree(const vector<string>& featureNames) const
 {
-    string T = "Decision tree:\n";
+   string T = "Decision tree:\n";
 
    vector<vector<string> >  view(GetTreeHeight(), vector<string> (GetTreeWidth()));
    FillTreeViewWithValues(0, GetTreeWidth() / 2, 0, featureNames, view);
@@ -52,6 +52,29 @@ string DecisionTreeRepresentation::ShowTree(const vector<string>& featureNames) 
 	   }
 	   T += '\n';
    }
+
+   // temporary workaround
+   T = "Decision tree:\n";
+   string emptyTemplate = view[0][0];
+
+   T += emptyTemplate + emptyTemplate;
+   T += view[0][GetTreeWidth()/2];
+   T += emptyTemplate + emptyTemplate;
+   T += '\n';
+
+   T += emptyTemplate;
+   T += view[1][GetTreeWidth()/4];
+   T += emptyTemplate;
+   T += view[1][GetTreeWidth() * 3 /4];
+   T += emptyTemplate;
+   T += '\n';
+
+   T += view[2][GetTreeWidth()/8];
+   T += view[2][GetTreeWidth() * 3 / 8];
+   T += emptyTemplate;
+   T += view[2][GetTreeWidth() * 5 /8];
+   T += view[2][GetTreeWidth() * 7 / 8];
+   T += '\n';
 
    return T;
 }
