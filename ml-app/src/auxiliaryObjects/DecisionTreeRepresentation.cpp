@@ -55,26 +55,41 @@ string DecisionTreeRepresentation::ShowTree(const vector<string>& featureNames) 
 
    // temporary workaround
    T = "Decision tree:\n";
-   string emptyTemplate = view[0][0];
+   string emptyTemplate(10, ' ');
 
-   T += emptyTemplate + emptyTemplate;
+   T += emptyTemplate + emptyTemplate + emptyTemplate + emptyTemplate;
    T += view[0][GetTreeWidth()/2];
-   T += emptyTemplate + emptyTemplate;
+   T += emptyTemplate + emptyTemplate + emptyTemplate + emptyTemplate;
    T += '\n';
 
-   T += emptyTemplate;
+   T += emptyTemplate + emptyTemplate + emptyTemplate;
    T += view[1][GetTreeWidth()/4];
    T += emptyTemplate;
    T += view[1][GetTreeWidth() * 3 /4];
-   T += emptyTemplate;
+   T += emptyTemplate + emptyTemplate + emptyTemplate;
    T += '\n';
 
+   T += emptyTemplate;
    T += view[2][GetTreeWidth()/8];
+   T += emptyTemplate;
    T += view[2][GetTreeWidth() * 3 / 8];
    T += emptyTemplate;
    T += view[2][GetTreeWidth() * 5 /8];
+   T += emptyTemplate;
    T += view[2][GetTreeWidth() * 7 / 8];
+   T += emptyTemplate;
    T += '\n';
+
+   T += view[3][GetTreeWidth() / 16];
+   T += view[3][GetTreeWidth() * 3 / 16];
+   T += view[3][GetTreeWidth()  * 5/ 16];
+   T += view[3][GetTreeWidth() * 7 / 16];
+   T += emptyTemplate;
+   T += view[3][GetTreeWidth() * 9 / 16];
+   T += view[3][GetTreeWidth() * 11 / 16];
+   T += view[3][GetTreeWidth() * 13/ 16];
+   T += view[3][GetTreeWidth() * 15/ 16];
+
 
    return T;
 }
@@ -101,7 +116,7 @@ inline string DecisionTreeRepresentation::ConstructNode(uint32_t curValue, const
 		if (it->second.first == (~(uint32_t)0))
 			return "[ " + std::to_string(it->second.second) + " ]";
 		else
-			return "[ " + featureNames[it->second.first] + " < " + std::to_string(it->second.second) + " ]";
+			return "[ " + featureNames[it->second.first] + " > " + std::to_string(it->second.second) + " ]";
 	}
 	else
 	{
