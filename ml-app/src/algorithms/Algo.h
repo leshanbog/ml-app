@@ -20,7 +20,7 @@ public:
 		Learn(df);
 	}
 
-	virtual void Learn(const DataFrame& df) = 0;
+
 
 	vector <long double> PredictResult(DataFrame& df) const
 	{
@@ -29,13 +29,14 @@ public:
 		return Predict(df);
 	}
 
-	virtual vector <long double> Predict(const DataFrame& df) const = 0;
-
 	virtual string GetDescriptionOfModel() const = 0;
 
 	virtual string GetAlgName() const = 0;
 
 protected:
+	virtual void Learn(const DataFrame& df) = 0;
+	virtual vector <long double> Predict(const DataFrame& df) const = 0;
+
 	vector <string> m_featureNames;
 	vector<StatisticsForNormalization> m_statsForNormalization;
 };

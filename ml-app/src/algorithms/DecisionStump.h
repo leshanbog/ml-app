@@ -34,10 +34,6 @@ public:
 		return "Decision Stump";
 	}
 
-	void Learn(const DataFrame& df) override;
-
-	vector<long double> Predict(const DataFrame& df) const override;
-
 	string GetDescriptionOfModel() const override;
 
 	uint32_t GetMainFeature()
@@ -50,6 +46,9 @@ public:
 			return m_params.threshold;
 	}
 private:
+	void Learn(const DataFrame& df) override;
+	vector<long double> Predict(const DataFrame& df) const override;
+
 	DecisionStumpParams m_params = { 0.0 ,0.0 ,0.0 };
 	uint32_t m_mainFeature = 0;
 

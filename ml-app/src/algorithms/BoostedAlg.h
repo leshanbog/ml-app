@@ -36,13 +36,12 @@ public:
 		return ans;
 	}
 
-	void Learn(const DataFrame&) override;
-
-	vector <long double> Predict(const DataFrame&) const override;
-
 	string GetDescriptionOfModel() const override;
 
 private:
+	void Learn(const DataFrame&) override;
+	vector <long double> Predict(const DataFrame&) const override;
+
 	size_t m_numberOfAlgs;
 	vector <TLearner> m_algsPool;
 	ArgsForAlg m_argsForTLearner;
@@ -57,7 +56,7 @@ template<class TLearner> void BoostedAlg<TLearner>::Learn(const DataFrame& df)
 		alg.Fit(train);
 		m_algsPool.push_back(alg);
 
-		train.ChangeAnswers(UsefulMath::SubtractVectors(train.GetAnswers(), alg.Predict(train) ) );
+		train.ChangeAnswers(UsefulMath::SubtractVectors(train.GetAnswers(), alg.PredictResult(train) ) );
 	}
 }
 
@@ -66,9 +65,11 @@ template<class TLearner> vector<long double> BoostedAlg<TLearner>::Predict(const
 	vector <long double> ans(df.GetDimention().first);
 	vector <vector<long double>> results(m_numberOfAlgs);
 
+	DataFrame dfToChange = df;
+
 	for (uint16_t i = 0; i < m_numberOfAlgs; ++i)
 	{
-		results[i] = m_algsPool[i].Predict(df);
+		results[i] = m_algsPool[i].PredictResult(dfToChange);
 	}
 
 	for (uint16_t i = 0; i < ans.size(); ++i)

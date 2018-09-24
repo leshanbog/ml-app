@@ -18,12 +18,11 @@ public:
 		return "Const Prediction";
 	}
 
-	void Learn(const DataFrame&) override;
-
-	vector <long double> Predict(const DataFrame&) const override;
-
 	string GetDescriptionOfModel() const override;
 private:
+	void Learn(const DataFrame&) override;
+	vector <long double> Predict(const DataFrame&) const override;
+
 	long double m_param = 0;
 };
 

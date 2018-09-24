@@ -18,12 +18,11 @@ public:
         return "Decision Tree";
     }
 
-    void Learn(const DataFrame& df) override;
-
-    vector<long double> Predict(const DataFrame& df) const override;
-
     string GetDescriptionOfModel() const override;
 private:
+	void Learn(const DataFrame& df) override;
+	vector<long double> Predict(const DataFrame& df) const override;
+
     void RecursiveLearn(const DataFrame& df, uint32_t pos);
     bool IsNeedToStop(const DataFrame& df) const;
     void SplitDataFrame(const std::function<bool(const Obj& obj)>& pred, const DataFrame& df, DataFrame& outSubDf1, DataFrame& outSubDf2);

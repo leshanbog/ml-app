@@ -21,13 +21,12 @@ public:
 		return "KNN";
 	}
 
-	void Learn(const DataFrame&) override;
-
-	vector <long double> Predict(const DataFrame&) const override;
-
 	string GetDescriptionOfModel() const override;
 
 private:
+	void Learn(const DataFrame&) override;
+	vector <long double> Predict(const DataFrame&) const override;
+
 	int m_k;
 	DataFrame m_data;
 

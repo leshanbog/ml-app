@@ -20,7 +20,7 @@ void DecisionTree::RecursiveLearn(const DataFrame& df, uint32_t pos)
     if (!IsNeedToStop(df))
     {
         DecisionStump ds;
-        ds.Learn(df);
+        ds.Fit(df);
 
         m_dtr.Add(pos, ds.GetMainFeature(), ds.GetThreshold());
 

@@ -55,7 +55,7 @@ template<class TLearner> void CrossValidation<TLearner>::StepScore(const DataFra
 
 	vector <long double> answersTest = test.GetAnswers();
 	alg.Fit(train);
-	long double tempRmse = (UsefulMath::SE(alg.Predict(test), answersTest) / (m_folds.size()-1)) / test.GetDimention().first;
+	long double tempRmse = (UsefulMath::SE(alg.PredictResult(test), answersTest) / (m_folds.size()-1)) / test.GetDimention().first;
 
 	std::unique_lock<std::mutex> m_lck(m_mtx, std::defer_lock);
 

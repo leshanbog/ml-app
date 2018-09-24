@@ -296,6 +296,7 @@ string RunLogic::StartAlg()
 			res = BuildAndEstimateModel<LinearRegression>(foldsNum, args);
 			break;
 		case 5:
+			args.argsLongDouble = { 25, m_df->GetDimention().first * 0.8 };
 			res = BuildAndEstimateModel<DecisionTree>(foldsNum, args);
 			break;
 		case 21:

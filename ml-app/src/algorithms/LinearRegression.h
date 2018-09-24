@@ -12,10 +12,6 @@ class LinearRegression : public Algo
 public:
 	LinearRegression(const ArgsForAlg& args);
 
-	void Learn(const DataFrame& df) override;
-
-	vector<long double> Predict(const DataFrame&) const override;
-
 	string GetDescriptionOfModel() const override;
 
 	inline string GetAlgName() const override
@@ -24,8 +20,10 @@ public:
 	}
 
 private:
-	vector<long double> FindCurrentLoss(const DataFrame& df);
-	
+	void Learn(const DataFrame& df) override;
+	vector<long double> Predict(const DataFrame&) const override;
+
+	vector<long double> FindCurrentLoss(const DataFrame& df);	
 	vector<long double> FindDerivatives(const DataFrame& df, vector<long double>& loss);
 
 private:

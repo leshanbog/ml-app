@@ -38,13 +38,12 @@ public:
 		return ans;
 	}
 
-	void Learn(const DataFrame&) override;
-
-	vector <long double> Predict(const DataFrame&) const override;
-
 	string GetDescriptionOfModel() const override;
 
 private:
+	void Learn(const DataFrame&) override;
+	vector <long double> Predict(const DataFrame&) const override;
+
 	DataFrame GenerateTrainingSet(const DataFrame&);
 
 private:
@@ -72,9 +71,11 @@ template<class TLearner> vector<long double> BaggedAlg<TLearner>::Predict(const 
 	vector <long double> ans(df.GetDimention().first);
 	vector <vector<long double>> results(m_numberOfAlgs);
 
+	DataFrame dfToChange = df;
+
 	for (uint16_t i = 0; i < m_numberOfAlgs; ++i)
 	{
-		results[i] = m_algsPool[i].Predict(df);
+		results[i] = m_algsPool[i].PredictResult(dfToChange);
 	}
 
 	for (uint16_t i = 0; i < ans.size(); ++i)

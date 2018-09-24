@@ -128,7 +128,6 @@ inline string DecisionTreeRepresentation::ConstructNode(uint32_t curValue, const
  {
     if (treeLevel == outView.size())
         return;
-	std::cout << treeLevel << " : " << nodeNumber << '\n';
     outView[treeLevel][nodeNumber] = ConstructNode(value, featureNames);
     FillTreeViewWithValues(treeLevel+1, nodeNumber - GetTreeWidth() / pow(2,treeLevel+2), value*2+1, featureNames, outView);
     FillTreeViewWithValues(treeLevel+1, nodeNumber + GetTreeWidth() / pow(2, treeLevel + 2), value*2+2, featureNames, outView);
