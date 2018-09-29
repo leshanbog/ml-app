@@ -41,7 +41,7 @@ PassingParameters DecisionStump::FindParams(const DataFrame& df, int j) const
 
 	for (size_t i = 0; i < data.size(); i++)
 	{
-		data[i] = { df.GetData()[i].description[j], df.GetData()[i].GetAnswer() };
+		data[i] = { df.GetData()[i].m_description[j], df.GetData()[i].GetAnswer() };
 		sumTargetAbove += df.GetData()[i].GetAnswer();
 		sumSquareTargetAbove += df.GetData()[i].GetAnswer() * df.GetData()[i].GetAnswer();
 	}
@@ -87,7 +87,7 @@ vector<long double> DecisionStump::Predict(const DataFrame& df) const
 
 	for (size_t i = 0; i < ans.size(); ++i)
 	{
-		if (df.GetData()[i].description[m_mainFeature] < m_params.threshold)
+		if (df.GetData()[i].m_description[m_mainFeature] < m_params.threshold)
 		{
 			ans[i] = m_params.valueBelow;
 		}

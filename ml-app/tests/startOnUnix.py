@@ -194,9 +194,11 @@ class AlgorithmScore(unittest.TestCase):
         res = GetResult(cmd)
 
         actualCoefs = GetCoeficients(res,2)
+        actualRmse = GetRmse(res)
 
         self.assertTrue(AreVeryClose(actualCoefs[0], 0.3333333))
         self.assertTrue(AreVeryClose(actualCoefs[1], 0.6666666))
+        self.assertEqual(actualRmse, 0)
 
     def test_LR_5_fold(self):
         cmd = 'ml ' + app_folder + '/../datasets/lr2.csv 4 -a 0.05,1337'

@@ -1,12 +1,14 @@
 #include "Obj.h"
-
+#include "../auxiliaryObjects.h"
 
 namespace algorithm_helpers
 {
 
 
-Obj::Obj(const string& descr, const char separator)
+Obj::Obj(const vector<long double>& descr, const long double& ans)
 {
+	DEBUG_LOG("Obj.cpp\tcopy construcor");
+	/*
 	int i = 0;
 	while (i < descr.size())
 	{
@@ -21,20 +23,23 @@ Obj::Obj(const string& descr, const char separator)
 		description.push_back(stold(t));
 		i++;
 	}
-	answer = description[description.size() - 1];
-	description.erase(description.end() - 1);
+	*/
+	m_description = descr;
+	m_answer = ans;
+
+	
 }
 
 Obj::Obj() {};
 
 long double Obj::GetAnswer() const
 {
-	return answer;
+	return m_answer;
 }
 
 void Obj::SetAnswer(const long double inValue)
 {
-	answer = inValue;
+	m_answer = inValue;
 }
 
 bool Obj::operator==(Obj& a)
@@ -42,12 +47,12 @@ bool Obj::operator==(Obj& a)
 	if (a.GetAnswer() != this->GetAnswer())
 		return false;
 
-	if (a.description.size() != this->description.size()) 
+	if (a.m_description.size() != this->m_description.size()) 
 		return false;
 
-	for (int i = 0; i < a.description.size(); i++)
+	for (int i = 0; i < a.m_description.size(); i++)
 	{
-		if (a.description[i] != this->description[i])
+		if (a.m_description[i] != this->m_description[i])
 			return false;
 	}
 

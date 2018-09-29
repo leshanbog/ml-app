@@ -1,0 +1,11 @@
+x,y,z,target
+animal,4,2,D
+animal,5,1,D
+human,2,2,B
+plant,3,4,A
+human,4,1,B
+plant,5,2,A
+animal,2,214,D
+human,511,2,B
+human,1,7,B
+plant,22,44,A

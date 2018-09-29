@@ -25,7 +25,10 @@ public:
 	vector <long double> PredictResult(DataFrame& df) const
 	{
 		if (!m_statsForNormalization.empty())
+		{
+			DEBUG_LOG("Algo.h:\tStarting normalization...");
 			df.PerformNormalization(m_statsForNormalization);
+		}
 		return Predict(df);
 	}
 

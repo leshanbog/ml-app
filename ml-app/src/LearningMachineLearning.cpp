@@ -1,4 +1,5 @@
 #include <cstring>
+#include <sstream>
 
 #include "LearningMachineLearning.h"
 #include "InfoProvider.h"
@@ -10,7 +11,7 @@ namespace core
 
 string RunLogic::Run(int argc, char *argv[])
 {
-	if (mainHelper.ParseParameters(argc, argv))
+	if (m_mainHelper.ParseParameters(argc, argv))
 	{
 		LoadData();
 		string res = StartAlg();
@@ -152,17 +153,30 @@ string MainHelper::getParam(const char* arg)
 	throw std::runtime_error(Information.find("WrongArgs")->second + Information.find("GetHelp")->second);
 }
 
+
+vector<std::string> MainHelper::split(const std::string& s, char delimiter)
+{
+   std::vector<std::string> tokens;
+   std::string token;
+   std::istringstream tokenStream(s);
+   while (std::getline(tokenStream, token, delimiter))
+   {
+      tokens.push_back(token);
+   }
+   return tokens;
+}
+
+
 void RunLogic::LoadData()
 {
-	std::ifstream fin(mainHelper.m_parameters["Data file name"]);
+	std::ifstream fin(m_mainHelper.m_parameters["Data file name"]);
 	if (!fin)
 		throw std::runtime_error("No such file!\n");
-	char separator = mainHelper.m_parameters["Separator"][0];
+	char separator = m_mainHelper.m_parameters["Separator"][0];
 	vector <string> featureNames = GetFeatureNames(fin, separator);
 
-	Obj x;
 	string descriptionOfObject;
-	vector <Obj> data;
+	vector <vector<string> > data;
 
 	// reading data file
 	while (!fin.eof())
@@ -170,8 +184,7 @@ void RunLogic::LoadData()
 		getline(fin, descriptionOfObject);
 		if (descriptionOfObject.size() == 0)
 			continue;
-		x = Obj(descriptionOfObject, separator);
-		data.push_back(x);
+		data.push_back(m_mainHelper.split(descriptionOfObject, separator));
 	}
 
 	m_df = new DataFrame(data);
@@ -186,12 +199,11 @@ void RunLogic::LoadData(string fileName, char separator)
 	if (!fin)
 		throw std::runtime_error("No such file!\n");
 
-	mainHelper.m_parameters["Feature names provided"] = "1";
+	m_mainHelper.m_parameters["Feature names provided"] = "1";
 	vector <string> featureNames = GetFeatureNames(fin, separator);
 
-	Obj x;
 	string descriptionOfObject;
-	vector <Obj> data;
+	vector <vector<string> > data;
 
 	// reading data file
 	while (!fin.eof())
@@ -199,8 +211,7 @@ void RunLogic::LoadData(string fileName, char separator)
 		getline(fin, descriptionOfObject);
 		if (descriptionOfObject.size() == 0)
 			continue;
-		x = Obj(descriptionOfObject, separator);
-		data.push_back(x);
+		data.push_back(m_mainHelper.split(descriptionOfObject, separator));
 	}
 
 	m_df = new DataFrame(data);
@@ -214,7 +225,7 @@ vector <string> RunLogic::GetFeatureNames(std::ifstream& fin, const char separat
 	vector <string> featureNames;
 	string featuresList;
 
-	if (mainHelper.m_parameters["Feature names provided"] == "1")
+	if (m_mainHelper.m_parameters["Feature names provided"] == "1")
 	{
 		getline(fin, featuresList);
 		size_t i = 0;
@@ -263,21 +274,21 @@ ArgsForAlg MainHelper::ConvertToArgs(const string& params)
 
 string RunLogic::StartAlg()
 {
-	int foldsNum = stoi(mainHelper.m_parameters["Folds number"]);
+	int foldsNum = stoi(m_mainHelper.m_parameters["Folds number"]);
 	if (foldsNum > m_df->GetDimention().first || foldsNum < 1)
 	{
 		throw std::runtime_error("Wrong number of folds\n");
 	}
 
-	bool normalizationNeeded = mainHelper.m_parameters["Normalization"] == "1" ? true : false;
+	bool normalizationNeeded = m_mainHelper.m_parameters["Normalization"] == "1" ? true : false;
 
 	if (normalizationNeeded)
 		m_df->DoNormalization();
 
-	ArgsForAlg args = mainHelper.ConvertToArgs(mainHelper.m_parameters["Arguments for algorithm"]);
+	ArgsForAlg args = m_mainHelper.ConvertToArgs(m_mainHelper.m_parameters["Arguments for algorithm"]);
 	string res;
 
-	switch (stoi(mainHelper.m_parameters["Algorithm"]))
+	switch (stoi(m_mainHelper.m_parameters["Algorithm"]))
 	{
 		case 1:
 			res = BuildAndEstimateModel<ConstPrediction>(foldsNum, args);
@@ -340,4 +351,4 @@ string RunLogic::StartAlg()
 }  // namespace core
 
 
-// TODO: change ArgsForAlgs, log systemm LR with Normalization Prediction
+// TODO: change ArgsForAlgs, LR with Normalization Prediction

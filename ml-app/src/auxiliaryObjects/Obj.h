@@ -14,7 +14,7 @@ namespace algorithm_helpers
 class Obj
 {
 public:
-	Obj(const string& descr, const char separator);
+	Obj(const vector<long double>& descr, const long double& ans);
 	Obj();
 
 	long double GetAnswer() const;
@@ -22,9 +22,9 @@ public:
 
 	bool operator==(Obj&);
 
-	vector <long double> description;
+	vector <long double> m_description;
 private:
-	long double answer;
+	long double m_answer;
 };
 
 

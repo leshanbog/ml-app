@@ -31,6 +31,8 @@ struct MainHelper
 
 	ArgsForAlg ConvertToArgs(const string& params);
 
+	vector<std::string> split(const std::string& s, char delimiter);
+
 	string getParam(const char* arg);
 	map <string,string> m_parameters;
 };
@@ -47,7 +49,7 @@ public:
 
 	template <class TLearner> string BuildAndEstimateModel(const int foldsNum, const ArgsForAlg &args)
 	{
-
+		DEBUG_LOG("LearningMachineLearning.h:\tStarting BuildAndExtimateModel...");
 		TLearner alg(args);
 
 		CrossValidation<TLearner> CV;
@@ -58,23 +60,28 @@ public:
 		auto end = std::chrono::high_resolution_clock::now();
 		long double timeForBuild = (end - start).count(), timeForCV = 0;
 
+		DEBUG_LOG("LearningMachineLearning.h:\tFit done");
 		if (foldsNum == 1)
 		{
+			DEBUG_LOG("LearningMachineLearning.h:\tCalculating RMSE");
 			rmse = UsefulMath::RMSE(alg.PredictResult(*m_df), m_df->GetAnswers());
 		}
 		else
 		{
+			DEBUG_LOG("LearningMachineLearning.h:\tStarting CV...");
 			start = std::chrono::high_resolution_clock::now();
 			rmse = CV.Score(*m_df, foldsNum, args);
 			end = std::chrono::high_resolution_clock::now();
 			timeForCV = (end - start).count();
 		}
 
+		DEBUG_LOG("LearningMachineLearning.h:\tEstimation done")
+
 		string descr = "\n+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=\n\n\n";
 		descr += alg.GetAlgName();
 		if (m_df->m_wasNormalized)
-			descr += " + normalizzation";
-		descr += "\n" + mainHelper.m_parameters["Data file name"] + "\n\n";
+			descr += " + normalization";
+		descr += "\n" + m_mainHelper.m_parameters["Data file name"] + "\n\n";
 		descr += alg.GetDescriptionOfModel() + "\n\nTime taken to build model (sec)  " + std::to_string(timeForBuild / 1'000'000'000.0);
 		if (foldsNum > 1)
 		{
@@ -96,7 +103,7 @@ private:
 
 private:
 	DataFrame* m_df;
-	MainHelper mainHelper;
+	MainHelper m_mainHelper;
 };
 
 

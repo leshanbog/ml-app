@@ -4,8 +4,6 @@
 #include <string>
 #include <cmath>
 
-//TODO: delete
-#include <iostream>
 
 namespace algorithm_helpers
 {
@@ -22,7 +20,7 @@ std::function<bool(const Obj& obj)> DecisionTreeRepresentation::operator[](uint3
     auto arg = p->second;
     return [arg](const Obj& obj) -> bool
     {
-        return obj.description[arg.first] < arg.second;
+        return obj.m_description[arg.first] < arg.second;
     };
 }
 

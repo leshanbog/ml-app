@@ -20,16 +20,16 @@ void LinearRegression::Learn(const DataFrame& df)
 
 	// init with random values between -1 and 1
 	for (size_t i = 0; i < m_params.size(); ++i)
-		m_params[i] = (long double)(rand() % 201 - 100) / (long double)10000.0;
+		m_params[i] = (long double)(rand() % 201 - 100) / (long double)100.0;
 
 	long double trainingSetSize = df.GetDimention().first;
 
 	for (int i = 0; i < m_numberOfIterations; ++i)
 	{
-		DEBUG_COND_TRACE2(i % 20000 == 0, i, " iteration...");
-
 		vector <long double> currentLoss = FindCurrentLoss(df);
 		vector <long double> currentDerivatives = FindDerivatives(df, currentLoss);
+
+		DEBUG_COND_TRACE4(i % (m_numberOfIterations/50) == 0, i, " iteration...", "\tloss of 1st component = ", currentLoss[0]);
 
 		for (size_t j = 0; j < m_params.size(); ++j)
 		{
@@ -45,7 +45,7 @@ vector <long double> LinearRegression::Predict(const DataFrame& df) const
 	for (size_t i = 0; i < ans.size(); ++i)
 	{
 		for (size_t j = 0; j < m_params.size() - 1; ++j)
-			ans[i] += df.GetData()[i].description[j] * m_params[j];
+			ans[i] += df.GetData()[i].m_description[j] * m_params[j];
 
 		ans[i] += m_params[m_params.size() - 1];
 	}
@@ -74,7 +74,7 @@ vector <long double> LinearRegression::FindCurrentLoss(const DataFrame& df)
 	{
 		long double currentPredictedValue = 0;
 		for (size_t j = 0; j < m_params.size() - 1; ++j)
-			currentPredictedValue += df.GetData()[i].description[j] * m_params[j];
+			currentPredictedValue += df.GetData()[i].m_description[j] * m_params[j];
 
 		// interceptor term
 		currentPredictedValue += m_params[m_params.size() - 1];
@@ -94,7 +94,7 @@ vector<long double> LinearRegression::FindDerivatives(const DataFrame& df, vecto
 	{
 		for (size_t j = 0; j < inteceptorTermIndex; ++j)
 		{
-			derivatives[j] += loss[i] * df.GetData()[i].description[j];
+			derivatives[j] += loss[i] * df.GetData()[i].m_description[j];
 		}
 
 		// interceptor term

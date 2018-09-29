@@ -41,11 +41,11 @@ vector<long double> KNN::FindKNearest(const Obj x) const
 {
 	multimap <long double, int> kNearest; // (measure of nearness, index of obj)
 
-	auto objDescr = x.description;
+	auto objDescr = x.m_description;
 
 	for (int i = 0; i < m_k; ++i)
 	{
-		kNearest.insert({ UsefulMath::RMSE(objDescr, m_data.GetData()[i].description), i });
+		kNearest.insert(std::make_pair(UsefulMath::RMSE(objDescr, m_data.GetData()[i].m_description), i ));
 	}
 
 	int n = m_data.GetDimention().first;
@@ -55,7 +55,7 @@ vector<long double> KNN::FindKNearest(const Obj x) const
 
 	for (int i = m_k; i < n; ++i)
 	{
-		currentRmse = UsefulMath::RMSE(objDescr, m_data.GetData()[i].description);
+		currentRmse = UsefulMath::RMSE(objDescr, m_data.GetData()[i].m_description);
 
 		if (lastNearest->first > currentRmse)
 		{
