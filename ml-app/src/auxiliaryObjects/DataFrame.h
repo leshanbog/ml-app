@@ -27,13 +27,14 @@ public:
 	DataFrame(const vector<vector<string> > & data);
 	DataFrame(vector<vector<string> >&& data);
 	
-	DataFrame(const vector<Obj>& data);
-	DataFrame(vector<Obj>&& data);	
+	DataFrame(const vector<Obj>& data, const vector<StatisticsForNormalization>& stats = {});
+	DataFrame(vector<Obj>&& data, const vector<StatisticsForNormalization>& stats = {});
 
 	vector <long double> GetAnswers() const;
 	vector<Obj>::const_iterator GetData() const;
 	pair <int, int> GetDimention() const;
 	vector <string> GetFeatureNames() const;
+	string GetMapping() const;
 
 	void Add(const Obj& obj);
 	void Add(Obj&& obj);
@@ -44,16 +45,20 @@ public:
 
 	void DoNormalization();
 	void PerformNormalization(const vector<StatisticsForNormalization>& stats);
+	void PerformUnNormalization();
 
 public:
 	vector<StatisticsForNormalization> m_stats;
 	bool m_wasNormalized = false;
+
 private:
 	vector<featureId> FindStringFeatures(const vector<vector<string> >& data);
 	std::map<featureId, featureDictionary> MakeMappingForTransformation(const vector<vector<string> >& data, const vector<featureId>& stringFeatures);
+
 private:
 	vector <Obj> m_data;
 	vector <string> m_featureNames;
+	std::map<featureId, featureDictionary> m_mapping;
 };
 
 

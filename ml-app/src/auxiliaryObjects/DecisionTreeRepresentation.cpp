@@ -42,52 +42,66 @@ string DecisionTreeRepresentation::ShowTree(const vector<string>& featureNames) 
    FillTreeViewWithValues(0, GetTreeWidth() / 2, 0, featureNames, view);
 
    FormOutput(T, view);
-   for (int i = 0; i < view.size(); ++i)
-   {
-	   for (int j = 0; j < view[0].size(); ++j)
-	   {
-		   T += view[i][j];
-	   }
-	   T += '\n';
-   }
 
    // temporary workaround
-   T = "Decision tree:\n";
-   string emptyTemplate(10, ' ');
+   if (GetTreeHeight() > 3)
+   {
+	   T = "Decision tree:\n";
+	   int maxLen = 0;
+	   for (auto el1 : view)
+	   {
+		   for (auto el2 : el1)
+		   {
+			   if (maxLen < el2.size())
+				   maxLen = el2.size();
+		   }
+	   }
+	   string emptyTemplate(maxLen, ' ');
+	   string halfTemp(maxLen / 2, ' ');
 
-   T += emptyTemplate + emptyTemplate + emptyTemplate + emptyTemplate;
-   T += view[0][GetTreeWidth()/2];
-   T += emptyTemplate + emptyTemplate + emptyTemplate + emptyTemplate;
-   T += '\n';
+	   T += emptyTemplate + emptyTemplate + emptyTemplate + emptyTemplate;
+	   T += view[0][GetTreeWidth() / 2];
+	   T += emptyTemplate + emptyTemplate + emptyTemplate + emptyTemplate;
+	   T += '\n';
 
-   T += emptyTemplate + emptyTemplate + emptyTemplate;
-   T += view[1][GetTreeWidth()/4];
-   T += emptyTemplate;
-   T += view[1][GetTreeWidth() * 3 /4];
-   T += emptyTemplate + emptyTemplate + emptyTemplate;
-   T += '\n';
+	   T += emptyTemplate + emptyTemplate;
+	   T += halfTemp;
+	   T += view[1][GetTreeWidth() / 4];
+	   T += emptyTemplate;
+	   T += emptyTemplate;
+	   T += emptyTemplate;
+	   T += view[1][GetTreeWidth() * 3 / 4];
+	   T += emptyTemplate + emptyTemplate + emptyTemplate;
+	   T += '\n';
 
-   T += emptyTemplate;
-   T += view[2][GetTreeWidth()/8];
-   T += emptyTemplate;
-   T += view[2][GetTreeWidth() * 3 / 8];
-   T += emptyTemplate;
-   T += view[2][GetTreeWidth() * 5 /8];
-   T += emptyTemplate;
-   T += view[2][GetTreeWidth() * 7 / 8];
-   T += emptyTemplate;
-   T += '\n';
+	   T += emptyTemplate;
+	   T += halfTemp;
+	   T += view[2][GetTreeWidth() / 8];
+	   T += emptyTemplate;
+	   T += halfTemp;
+	   T += view[2][GetTreeWidth() * 3 / 8];
+	   T += emptyTemplate;
+	   T += view[2][GetTreeWidth() * 5 / 8];
+	   T += emptyTemplate;
+	   T += view[2][GetTreeWidth() * 7 / 8];
+	   T += emptyTemplate;
+	   T += '\n';
 
-   T += view[3][GetTreeWidth() / 16];
-   T += view[3][GetTreeWidth() * 3 / 16];
-   T += view[3][GetTreeWidth()  * 5/ 16];
-   T += view[3][GetTreeWidth() * 7 / 16];
-   T += emptyTemplate;
-   T += view[3][GetTreeWidth() * 9 / 16];
-   T += view[3][GetTreeWidth() * 11 / 16];
-   T += view[3][GetTreeWidth() * 13/ 16];
-   T += view[3][GetTreeWidth() * 15/ 16];
 
+	   T += view[3][GetTreeWidth() / 16];
+	   T += halfTemp;
+	   T += view[3][GetTreeWidth() * 3 / 16];
+	   T += emptyTemplate;
+	   T += view[3][GetTreeWidth() * 5 / 16];
+	   T += view[3][GetTreeWidth() * 7 / 16];
+	   T += halfTemp;
+	   T += view[3][GetTreeWidth() * 9 / 16];
+	   T += halfTemp;
+	   T += view[3][GetTreeWidth() * 11 / 16];
+	   T += view[3][GetTreeWidth() * 13 / 16];
+	   T += halfTemp;
+	   T += view[3][GetTreeWidth() * 15 / 16];
+   }
 
    return T;
 }

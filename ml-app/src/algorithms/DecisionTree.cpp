@@ -37,7 +37,7 @@ void DecisionTree::RecursiveLearn(const DataFrame& df, uint32_t pos)
 
 bool DecisionTree::IsNeedToStop(const DataFrame& df) const
 {
-    return df.GetDimention().first <= 10;
+    return df.GetDimention().first <= 25;
 }
 
 void DecisionTree::SplitDataFrame(const std::function<bool(const Obj& obj)>& pred, const DataFrame& df, DataFrame& outSubDf1, DataFrame& outSubDf2)

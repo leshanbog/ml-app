@@ -16,7 +16,7 @@ DataFrame::DataFrame(const vector<vector<string> >& data)
 		return;
 
 	vector<featureId> stringFeatures = FindStringFeatures(data);
-	std::map<featureId, featureDictionary> m = MakeMappingForTransformation(data, stringFeatures);
+	m_mapping = MakeMappingForTransformation(data, stringFeatures);
 
 	// creating m_data
 	for (uint32_t i = 0; i < data.size(); ++i)
@@ -26,18 +26,18 @@ DataFrame::DataFrame(const vector<vector<string> >& data)
 		featureId j = 0;
 		for (; j < data[i].size() - 1; ++j)
 		{
-			if (m.find(j) != m.end())
+			if (m_mapping.find(j) != m_mapping.end())
 			{
-				curObject[j] = m[j][data[i][j]];
+				curObject[j] = m_mapping[j][data[i][j]];
 			}
 			else
 			{
 				curObject[j] = stold(data[i][j]);
 			}
 		}
-		if (m.find(j) != m.end())
+		if (m_mapping.find(j) != m_mapping.end())
 		{
-			ans = m[j][data[i][j]];
+			ans = m_mapping[j][data[i][j]];
 		}
 		else
 		{
@@ -56,7 +56,7 @@ DataFrame::DataFrame(vector<vector<string> >&& data)
 		return;
 
 	vector<featureId> stringFeatures = FindStringFeatures(data);
-	std::map<featureId, featureDictionary> m = MakeMappingForTransformation(data, stringFeatures);
+	m_mapping = MakeMappingForTransformation(data, stringFeatures);
 
 	// creating m_data
 	for (uint32_t i = 0; i < data.size(); ++i)
@@ -66,18 +66,18 @@ DataFrame::DataFrame(vector<vector<string> >&& data)
 		featureId j = 0;
 		for (; j < data[i].size() - 1; ++j)
 		{
-			if (m.find(j) != m.end())
+			if (m_mapping.find(j) != m_mapping.end())
 			{
-				curObject[j] = m[j][data[i][j]];
+				curObject[j] = m_mapping[j][data[i][j]];
 			}
 			else
 			{
 				curObject[j] = stold(data[i][j]);
 			}
 		}
-		if (m.find(j) != m.end())
+		if (m_mapping.find(j) != m_mapping.end())
 		{
-			ans = m[j][data[i][j]];
+			ans = m_mapping[j][data[i][j]];
 		}
 		else
 		{
@@ -88,19 +88,22 @@ DataFrame::DataFrame(vector<vector<string> >&& data)
 	}
 }
 
-DataFrame::DataFrame(const vector<Obj>& data)
+DataFrame::DataFrame(const vector<Obj>& data, const vector<StatisticsForNormalization>& stats)
 {
 	DEBUG_LOG("DataFrame.cpp:\tCopy constructor from vec<Obj>");
 	m_data = data;
+	m_stats = stats;
+	m_wasNormalized = stats.size();
 
 	DEBUG_ASSERT_TRUE(data.size() != 0);
 }
 
-DataFrame::DataFrame(vector<Obj>&& data)
+DataFrame::DataFrame(vector<Obj>&& data, const vector<StatisticsForNormalization>& stats)
 {
 	DEBUG_LOG("DataFrame.cpp:\tMove constructor from vec<Obj>");
 	m_data = std::move(data);
-
+	m_stats = stats;
+	m_wasNormalized = stats.size();
 	DEBUG_ASSERT_TRUE(data.empty());
 }
 
@@ -136,6 +139,21 @@ pair<int, int> DataFrame::GetDimention() const
 vector<string> DataFrame::GetFeatureNames() const
 {
 	return m_featureNames;
+}
+
+string DataFrame::GetMapping() const
+{
+	string ans = "";
+
+	for (auto stringFeatureMapping : m_mapping)
+	{
+		ans += m_featureNames[stringFeatureMapping.first] + ":\n";
+		for (auto el : stringFeatureMapping.second)
+		{
+			ans += "\t" + std::to_string(el.second) + " -> " + el.first + '\n';
+		}
+	}
+	return ans;
 }
 
 void DataFrame::SetFeatureNames(const vector<string>& fn)
@@ -200,6 +218,19 @@ void DataFrame::PerformNormalization(const vector<StatisticsForNormalization>& s
 	}
 }
 
+void DataFrame::PerformUnNormalization()
+{
+	DEBUG_LOG("DataFrame.cpp:\tPerforming unnormalization");
+	DEBUG_ASSERT_TRUE(!m_stats.empty());
+	for (size_t i = 0; i < m_data.size(); ++i)
+	{
+		for (size_t j = 0; j < m_data[i].m_description.size(); ++j)
+		{
+			m_data[i].m_description[j] = m_stats[j].mean + m_stats[j].diffMaxMin * m_data[i].m_description[j];
+		}
+	}
+}
+
 vector<featureId> DataFrame::FindStringFeatures(const vector<vector<string> >& data)
 {
 	vector<featureId> stringFeatures;
@@ -228,7 +259,7 @@ std::map<featureId, featureDictionary> DataFrame::MakeMappingForTransformation(c
 		{
 			// TODO: use sets here
 			featureId idOfStringFeature = stringFeatures[j];
-			if (m[idOfStringFeature].find(data[i][j]) == m[idOfStringFeature].end())
+			if (m[idOfStringFeature].find(data[i][idOfStringFeature]) == m[idOfStringFeature].end())
 			{
 				m[idOfStringFeature][data[i][idOfStringFeature]] = val;
 				++val;

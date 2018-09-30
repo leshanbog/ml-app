@@ -280,11 +280,6 @@ string RunLogic::StartAlg()
 		throw std::runtime_error("Wrong number of folds\n");
 	}
 
-	bool normalizationNeeded = m_mainHelper.m_parameters["Normalization"] == "1" ? true : false;
-
-	if (normalizationNeeded)
-		m_df->DoNormalization();
-
 	ArgsForAlg args = m_mainHelper.ConvertToArgs(m_mainHelper.m_parameters["Arguments for algorithm"]);
 	string res;
 

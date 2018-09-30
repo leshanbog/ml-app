@@ -50,6 +50,10 @@ public:
 	template <class TLearner> string BuildAndEstimateModel(const int foldsNum, const ArgsForAlg &args)
 	{
 		DEBUG_LOG("LearningMachineLearning.h:\tStarting BuildAndExtimateModel...");
+		bool normalizationNeeded = m_mainHelper.m_parameters["Normalization"] == "1" ? true : false;
+		if (normalizationNeeded)
+			m_df->DoNormalization();
+
 		TLearner alg(args);
 
 		CrossValidation<TLearner> CV;
@@ -59,6 +63,9 @@ public:
 		alg.Fit(*m_df);
 		auto end = std::chrono::high_resolution_clock::now();
 		long double timeForBuild = (end - start).count(), timeForCV = 0;
+
+		if (normalizationNeeded)
+			m_df->PerformUnNormalization();
 
 		DEBUG_LOG("LearningMachineLearning.h:\tFit done");
 		if (foldsNum == 1)
@@ -89,6 +96,7 @@ public:
 			descr += "\nTime taken for CV (sec) " + std::to_string(timeForCV / 1'000'000'000.0);
 		}
 		descr += "\n\nRMSE  " + std::to_string(rmse);
+		descr += "\n" + m_df->GetMapping();
 		descr += "\n\n\n+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=\n\n";
 
 		return descr;

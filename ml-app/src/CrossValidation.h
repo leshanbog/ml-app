@@ -50,8 +50,11 @@ template<class TLearner> void CrossValidation<TLearner>::StepScore(const DataFra
 	TLearner alg(args);
 
 	DataFrame
-		train(MakeVecForDf(df, i, TRAIN)),
-		test(MakeVecForDf(df, i, TEST));
+		train(MakeVecForDf(df, i, TRAIN), df.m_stats),
+		test(MakeVecForDf(df, i, TEST), df.m_stats);
+
+	if (train.m_wasNormalized)
+		train.PerformNormalization(train.m_stats);
 
 	vector <long double> answersTest = test.GetAnswers();
 	alg.Fit(train);
