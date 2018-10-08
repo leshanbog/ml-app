@@ -61,7 +61,7 @@ class SimpleCommands(unittest.TestCase):
     def test_Algs_command(self):
         cmd = 'algs'
         actual = GetResult(cmd)
-        expected = 'These are basic algorithms:\n\t1 - Const prediction\n\t2 - DecisionStump\n\t3 - K nearest neighbours\n\nTo build bagged algorithm type 2i, where i - number of basic algorithm\nTo build boosted algorithm type 3i, where i - number of basic algorithm\n\nTo get information about algorithm parameters and default values use command \'info <i>\', where i - number of algorithm\nAdditional algorithms:\n\t4 - Linear Regression\n\t5 - Decision Tree\n'
+        expected = 'These are basic algorithms:\n\t1 - Const prediction\n\t2 - DecisionStump\n\t3 - K nearest neighbours\n\t4 - Linear Regression\n\t5 - Decision Tree\n\nTo build bagged algorithm type 2i, where i - number of basic algorithm\nTo build boosted algorithm type 3i, where i - number of basic algorithm\n\nTo get information about algorithm parameters and default values use command \'info <i>\', where i - number of algorithm\n'
         self.assertEqual(actual,expected)
 
     def test_Info_command(self):
@@ -212,12 +212,14 @@ class AlgorithmScore(unittest.TestCase):
         self.assertTrue(AreVeryClose(actualCoefs[1], -0.4078))
 
     def test_LR_5_fold_norm(self):
-        cmd = 'ml ' + app_folder + '/../datasets/lr2.csv 4 -n 1'
-        res = GetResult(cmd)
+        cmd1 = 'ml ' + app_folder + '/../datasets/lr2.csv 4 -n 1 -a 0.05,1337 -fn 1'
+        cmd2 = 'ml ' + app_folder + '/../datasets/lr2.csv 4 -a 0.05,1337 -fn 1'
+        res1 = GetResult(cmd1)
+        res2 = GetResult(cmd2)
 
-        actualRmse = GetRmse(res)   
-        print(actualRmse)     
-        self.assertTrue(AreVeryClose(actualRmse, 0.7645))
+        actualRmse1 = GetRmse(res1)
+        actualRmse2 = GetRmse(res2)   
+        self.assertAlmostEqual(actualRmse1, actualRmse2, 5)
 
 
 if __name__ == '__main__':

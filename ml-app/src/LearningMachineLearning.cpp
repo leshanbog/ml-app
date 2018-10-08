@@ -193,7 +193,7 @@ void RunLogic::LoadData()
 	fin.close();
 }
 
-void RunLogic::LoadData(string fileName, char separator)
+DataFrame RunLogic::LoadData(string fileName, char separator)
 {
 	std::ifstream fin(fileName);
 	if (!fin)
@@ -218,6 +218,7 @@ void RunLogic::LoadData(string fileName, char separator)
 	m_df->SetFeatureNames(featureNames);
 
 	fin.close();
+	return *m_df;
 }
 
 vector <string> RunLogic::GetFeatureNames(std::ifstream& fin, const char separator)
@@ -302,9 +303,11 @@ string RunLogic::StartAlg()
 			res = BuildAndEstimateModel<LinearRegression>(foldsNum, args);
 			break;
 		case 5:
-			args.argsLongDouble = { 25, m_df->GetDimention().first * 0.8 };
+			if (args.argsLongDouble.empty())
+				args.argsLongDouble = { m_df->GetDimention().first * 0.02 };
 			res = BuildAndEstimateModel<DecisionTree>(foldsNum, args);
 			break;
+// +=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=
 		case 21:
 			if (args.argsLongDouble.empty())
 				args.argsLongDouble = {25, m_df->GetDimention().first * 0.8};
@@ -320,6 +323,17 @@ string RunLogic::StartAlg()
 				args.argsLongDouble = {25, m_df->GetDimention().first * 0.8, 5};
 			res = BuildAndEstimateModel<BaggedAlg<KNN>>(foldsNum, args);
 			break;
+		case 24:
+			if (args.argsLongDouble.empty())
+				args.argsLongDouble = {25, m_df->GetDimention().first * 0.8, 0.00001, 300000 };
+			res = BuildAndEstimateModel<BaggedAlg<LinearRegression>>(foldsNum, args);
+			break;
+		case 25:
+			if (args.argsLongDouble.empty())
+				args.argsLongDouble = {25, m_df->GetDimention().first * 0.8, m_df->GetDimention().first * 0.02};
+			res = BuildAndEstimateModel<BaggedAlg<DecisionTree>>(foldsNum, args);
+			break;
+// +=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=
 		case 31:
 			if (args.argsLongDouble.empty())
 				args.argsLongDouble = {50};
@@ -334,6 +348,16 @@ string RunLogic::StartAlg()
 			if (args.argsLongDouble.empty())
 				args.argsLongDouble = {50, 5};
 			res = BuildAndEstimateModel<BoostedAlg<KNN>>(foldsNum, args);
+			break;
+		case 34:
+			if (args.argsLongDouble.empty())
+				args.argsLongDouble = {50, 5, 0.00001, 300000};
+			res = BuildAndEstimateModel<BoostedAlg<LinearRegression>>(foldsNum, args);
+			break;
+		case 35:
+			if (args.argsLongDouble.empty())
+				args.argsLongDouble = {50, 5, m_df->GetDimention().first * 0.02};
+			res = BuildAndEstimateModel<BoostedAlg<DecisionTree>>(foldsNum, args);
 			break;
 		default:
 			throw std::runtime_error(Information.find("NoSuchAlg")->second);

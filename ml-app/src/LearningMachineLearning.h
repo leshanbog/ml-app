@@ -45,7 +45,7 @@ public:
 	string Run(int argc, char *argv[]);
 
 	// for usage in lib
-	void LoadData(string fileName, char separator = ',');
+	DataFrame LoadData(string fileName, char separator = ',');
 
 	template <class TLearner> string BuildAndEstimateModel(const int foldsNum, const ArgsForAlg &args)
 	{

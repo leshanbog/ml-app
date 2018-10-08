@@ -11,7 +11,9 @@ namespace algorithms
 class DecisionTree : public Algo
 {
 public:
-    DecisionTree(const ArgsForAlg& args) {}
+    DecisionTree(const ArgsForAlg& args) {
+        m_prunningThreshold = args.argsLongDouble[0];
+    }
 
     inline string GetAlgName() const override
     {
@@ -30,6 +32,7 @@ private:
 
 private:
     DecisionTreeRepresentation m_dtr;
+    uint32_t m_prunningThreshold;
 };
 
 
