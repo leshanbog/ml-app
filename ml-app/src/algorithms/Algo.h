@@ -20,8 +20,6 @@ public:
 		Learn(df);
 	}
 
-
-
 	vector <long double> PredictResult(DataFrame& df) const
 	{
 		if (!m_statsForNormalization.empty())
