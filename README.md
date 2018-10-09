@@ -8,8 +8,8 @@
 #### Bagging
 #### Boosting
 
-Code: 
+Code:\n\t 
 	ml-app/src
-Build: 
+\nBuild:\n\t
 	ml-all.sin - Visual Studio Solution file for WIndows
-	ml-app/build for Unix
+	\n\tml-app/build for Unix
